@@ -1,0 +1,673 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>main_window</class>
+ <widget class="QMainWindow" name="main_window">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>648</width>
+    <height>299</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>BitmapViewer</string>
+  </property>
+  <widget class="QWidget" name="central">
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <property name="spacing">
+     <number>1</number>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="bitmap_viewer::slider" name="slider" native="true">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>16</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QScrollArea" name="scrollArea">
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Plain</enum>
+      </property>
+      <property name="lineWidth">
+       <number>0</number>
+      </property>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="bitmap_viewer::viewer" name="viewer">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>391</width>
+         <height>202</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menu">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>648</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu_File">
+    <property name="title">
+     <string>&amp;File</string>
+    </property>
+    <addaction name="action_open"/>
+    <addaction name="action_save"/>
+    <addaction name="separator"/>
+    <addaction name="action_close"/>
+    <addaction name="separator"/>
+    <addaction name="action_exit"/>
+   </widget>
+   <widget class="QMenu" name="menu_Show">
+    <property name="title">
+     <string>&amp;Show</string>
+    </property>
+    <addaction name="action_left_shift"/>
+    <addaction name="action_right_shift"/>
+    <addaction name="separator"/>
+    <addaction name="action_fold_linear"/>
+    <addaction name="action_unfold_linear"/>
+    <addaction name="action_fold_exponential"/>
+    <addaction name="action_unfold_exponential"/>
+    <addaction name="separator"/>
+    <addaction name="action_change_palette"/>
+    <addaction name="action_next_show_mode"/>
+    <addaction name="separator"/>
+    <addaction name="action_show_contrast_line"/>
+    <addaction name="action_logarithm"/>
+    <addaction name="separator"/>
+   </widget>
+   <widget class="QMenu" name="menu_help">
+    <property name="title">
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="action_info"/>
+   </widget>
+   <addaction name="menu_File"/>
+   <addaction name="menu_Show"/>
+   <addaction name="menu_help"/>
+  </widget>
+  <widget class="QToolBar" name="tool_file">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="action_open"/>
+   <addaction name="action_save"/>
+   <addaction name="separator"/>
+   <addaction name="action_close"/>
+  </widget>
+  <widget class="QToolBar" name="tool_change">
+   <property name="windowTitle">
+    <string>toolBar_3</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="action_left_shift"/>
+   <addaction name="action_right_shift"/>
+   <addaction name="separator"/>
+   <addaction name="action_fold_linear"/>
+   <addaction name="action_unfold_linear"/>
+   <addaction name="action_fold_exponential"/>
+   <addaction name="action_unfold_exponential"/>
+  </widget>
+  <widget class="QToolBar" name="tool_palette">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="action_change_palette"/>
+   <addaction name="action_next_show_mode"/>
+  </widget>
+  <widget class="QToolBar" name="tool_markers">
+   <property name="windowTitle">
+    <string>toolBar_2</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="action_show_contrast_line"/>
+   <addaction name="action_logarithm"/>
+  </widget>
+  <widget class="QStatusBar" name="status"/>
+  <widget class="QDockWidget" name="dock">
+   <property name="features">
+    <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
+   </property>
+   <property name="windowTitle">
+    <string>Bitmap list</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="contents">
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QListView" name="list">
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>200</height>
+        </size>
+       </property>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::ExtendedSelection</enum>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>96</width>
+         <height>96</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <action name="action_exit">
+   <property name="icon">
+    <iconset resource="Icons.qrc">
+     <normaloff>:/images/exit.svg</normaloff>:/images/exit.svg</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Exit</string>
+   </property>
+   <property name="toolTip">
+    <string>Terminate the program</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="action_close">
+   <property name="icon">
+    <iconset resource="Icons.qrc">
+     <normaloff>:/images/close.svg</normaloff>:/images/close.svg</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Close</string>
+   </property>
+   <property name="toolTip">
+    <string>Close the selected bitmaps</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+W</string>
+   </property>
+  </action>
+  <action name="action_open">
+   <property name="icon">
+    <iconset resource="Icons.qrc">
+     <normaloff>:/images/open.svg</normaloff>:/images/open.svg</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Open</string>
+   </property>
+   <property name="toolTip">
+    <string>Open bitmaps</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="action_save">
+   <property name="icon">
+    <iconset resource="Icons.qrc">
+     <normaloff>:/images/save.svg</normaloff>:/images/save.svg</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Save</string>
+   </property>
+   <property name="toolTip">
+    <string>Save the selected bitmaps</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="action_left_shift">
+   <property name="icon">
+    <iconset resource="Icons.qrc">
+     <normaloff>:/images/shift_left.svg</normaloff>:/images/shift_left.svg</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Left shift</string>
+   </property>
+   <property name="shortcut">
+    <string>Left</string>
+   </property>
+  </action>
+  <action name="action_right_shift">
+   <property name="icon">
+    <iconset resource="Icons.qrc">
+     <normaloff>:/images/shift_right.svg</normaloff>:/images/shift_right.svg</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Right shift</string>
+   </property>
+   <property name="shortcut">
+    <string>Right</string>
+   </property>
+  </action>
+  <action name="action_fold_linear">
+   <property name="icon">
+    <iconset resource="Icons.qrc">
+     <normaloff>:/images/fold_linear.svg</normaloff>:/images/fold_linear.svg</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Fold linear</string>
+   </property>
+   <property name="shortcut">
+    <string>PgUp</string>
+   </property>
+  </action>
+  <action name="action_unfold_linear">
+   <property name="icon">
+    <iconset resource="Icons.qrc">
+     <normaloff>:/images/unfold_linear.svg</normaloff>:/images/unfold_linear.svg</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Unfold linear</string>
+   </property>
+   <property name="shortcut">
+    <string>PgDown</string>
+   </property>
+  </action>
+  <action name="action_fold_exponential">
+   <property name="icon">
+    <iconset resource="Icons.qrc">
+     <normaloff>:/images/fold_exponential.svg</normaloff>:/images/fold_exponential.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Fold &amp;exponential</string>
+   </property>
+   <property name="shortcut">
+    <string>Home</string>
+   </property>
+  </action>
+  <action name="action_unfold_exponential">
+   <property name="icon">
+    <iconset resource="Icons.qrc">
+     <normaloff>:/images/unfold_exponential.svg</normaloff>:/images/unfold_exponential.svg</iconset>
+   </property>
+   <property name="text">
+    <string>U&amp;nfold exponential</string>
+   </property>
+   <property name="shortcut">
+    <string>End</string>
+   </property>
+  </action>
+  <action name="action_change_palette">
+   <property name="icon">
+    <iconset resource="Icons.qrc">
+     <normaloff>:/images/palette.svg</normaloff>:/images/palette.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Next &amp;palette</string>
+   </property>
+   <property name="shortcut">
+    <string>P</string>
+   </property>
+  </action>
+  <action name="action_next_show_mode">
+   <property name="icon">
+    <iconset resource="Icons.qrc">
+     <normaloff>:/images/show_mode.svg</normaloff>:/images/show_mode.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Next show &amp;mode</string>
+   </property>
+   <property name="shortcut">
+    <string>Space</string>
+   </property>
+  </action>
+  <action name="action_show_contrast_line">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Icons.qrc">
+     <normaloff>:/images/contrast_line.svg</normaloff>:/images/contrast_line.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Show &amp;contrast line</string>
+   </property>
+   <property name="shortcut">
+    <string>C</string>
+   </property>
+  </action>
+  <action name="action_info">
+   <property name="icon">
+    <iconset resource="Icons.qrc">
+     <normaloff>:/images/logo.svg</normaloff>:/images/logo.svg</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Info</string>
+   </property>
+  </action>
+  <action name="action_logarithm">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Icons.qrc">
+     <normaloff>:/images/logarithm.svg</normaloff>:/images/logarithm.svg</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Logarithm</string>
+   </property>
+   <property name="toolTip">
+    <string>Logarithm or linear palette</string>
+   </property>
+   <property name="shortcut">
+    <string>L</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>bitmap_viewer::slider</class>
+   <extends>QWidget</extends>
+   <header>slider.hpp</header>
+   <container>1</container>
+   <slots>
+    <slot>contrast_line(bool)</slot>
+    <slot>next()</slot>
+    <slot>right_shift()</slot>
+    <slot>left_shift()</slot>
+    <slot>fold_exponential()</slot>
+    <slot>unfold_exponential()</slot>
+    <slot>fold_linear()</slot>
+    <slot>unfold_linear()</slot>
+   </slots>
+  </customwidget>
+  <customwidget>
+   <class>bitmap_viewer::viewer</class>
+   <extends>QWidget</extends>
+   <header>viewer.hpp</header>
+   <container>1</container>
+   <slots>
+    <signal>info(QString)</signal>
+    <slot>next_mode()</slot>
+   </slots>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="Icons.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>action_exit</sender>
+   <signal>triggered()</signal>
+   <receiver>main_window</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>382</x>
+     <y>220</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_show_contrast_line</sender>
+   <signal>triggered(bool)</signal>
+   <receiver>slider</receiver>
+   <slot>contrast_line(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>452</x>
+     <y>65</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_change_palette</sender>
+   <signal>triggered()</signal>
+   <receiver>slider</receiver>
+   <slot>next()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>452</x>
+     <y>65</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_right_shift</sender>
+   <signal>triggered()</signal>
+   <receiver>slider</receiver>
+   <slot>right_shift()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>452</x>
+     <y>65</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_left_shift</sender>
+   <signal>triggered()</signal>
+   <receiver>slider</receiver>
+   <slot>left_shift()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>452</x>
+     <y>65</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_open</sender>
+   <signal>triggered()</signal>
+   <receiver>main_window</receiver>
+   <slot>open()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>323</x>
+     <y>119</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_save</sender>
+   <signal>triggered()</signal>
+   <receiver>main_window</receiver>
+   <slot>save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>323</x>
+     <y>119</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>list</sender>
+   <signal>activated(QModelIndex)</signal>
+   <receiver>main_window</receiver>
+   <slot>show_bitmap(QModelIndex)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>127</x>
+     <y>176</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>323</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_fold_linear</sender>
+   <signal>triggered()</signal>
+   <receiver>slider</receiver>
+   <slot>fold_linear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>452</x>
+     <y>65</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_unfold_linear</sender>
+   <signal>triggered()</signal>
+   <receiver>slider</receiver>
+   <slot>unfold_linear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>452</x>
+     <y>65</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_fold_exponential</sender>
+   <signal>triggered()</signal>
+   <receiver>slider</receiver>
+   <slot>fold_exponential()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>452</x>
+     <y>65</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_unfold_exponential</sender>
+   <signal>triggered()</signal>
+   <receiver>slider</receiver>
+   <slot>unfold_exponential()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>452</x>
+     <y>65</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_close</sender>
+   <signal>triggered()</signal>
+   <receiver>main_window</receiver>
+   <slot>close_selected()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>323</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>open()</slot>
+  <slot>save()</slot>
+  <slot>show_bitmap(QModelIndex)</slot>
+  <slot>close_selected()</slot>
+ </slots>
+</ui>
