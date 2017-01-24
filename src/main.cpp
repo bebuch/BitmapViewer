@@ -1,3 +1,11 @@
+//-----------------------------------------------------------------------------
+// Copyright (c) 2013-2017 Benjamin Buch
+//
+// https://github.com/bebuch/BitmapViewer
+//
+// Distributed under the Boost Software License, Version 1.0. (See accompanying
+// file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
+//-----------------------------------------------------------------------------
 #include <BitmapViewer/main_window.hpp>
 
 #include <QApplication>

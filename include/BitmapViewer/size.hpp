@@ -52,7 +52,7 @@ namespace bitmap_viewer{
 
 
 		/// \brief Constructs a size with width 0 and height 0
-		size(): width_(0), height_(0) {}
+		size(): width_(), height_() {}
 
 		/// \brief Constructs a copy
 		size(size const&) = default;

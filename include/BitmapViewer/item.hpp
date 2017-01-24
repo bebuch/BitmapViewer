@@ -1,5 +1,13 @@
-#ifndef _bitmap_viewer_item_hpp_INCLUDED_
-#define _bitmap_viewer_item_hpp_INCLUDED_
+//-----------------------------------------------------------------------------
+// Copyright (c) 2013-2017 Benjamin Buch
+//
+// https://github.com/bebuch/BitmapViewer
+//
+// Distributed under the Boost Software License, Version 1.0. (See accompanying
+// file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
+//-----------------------------------------------------------------------------
+#ifndef _bitmap_viewer__item__hpp_INCLUDED_
+#define _bitmap_viewer__item__hpp_INCLUDED_
 
 #include "file_handler.hpp"
 #include "colors.hpp"
@@ -12,37 +20,37 @@
 namespace bitmap_viewer{
 
 
-class item{
-public:
-	item();
-	item(QString const& filename);
+	class item{
+	public:
+		item();
+		item(QString const& filename);
 
-	QString filename()const;
-	QString path()const;
+		QString filename()const;
+		QString path()const;
 
-	QString type()const;
+		QString type()const;
 
-	QString min()const;
-	QString max()const;
+		QString min()const;
+		QString max()const;
 
-	std::size_t width()const;
-	std::size_t height()const;
+		std::size_t width()const;
+		std::size_t height()const;
 
-	std::size_t undefined_count()const;
+		std::size_t undefined_count()const;
 
-	QImage image(colors const& color, unsigned shift, bool logarithm)const;
+		QImage image(colors const& color, unsigned shift, bool logarithm)const;
 
-	QPixmap icon()const;
+		QPixmap icon()const;
 
-	bitmap_type const& bitmap()const{return bitmap_;}
+		bitmap_type const& bitmap()const{return bitmap_;}
 
-private:
-	bitmap_type bitmap_;
+	private:
+		bitmap_type bitmap_;
 
-	QFileInfo filename_;
+		QFileInfo filename_;
 
-	QPixmap icon_;
-};
+		QPixmap icon_;
+	};
 
 
 }

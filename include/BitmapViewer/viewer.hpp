@@ -1,5 +1,13 @@
-#ifndef _bitmap_viewer_viewer_hpp_INCLUDED_
-#define _bitmap_viewer_viewer_hpp_INCLUDED_
+//-----------------------------------------------------------------------------
+// Copyright (c) 2013-2017 Benjamin Buch
+//
+// https://github.com/bebuch/BitmapViewer
+//
+// Distributed under the Boost Software License, Version 1.0. (See accompanying
+// file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
+//-----------------------------------------------------------------------------
+#ifndef _bitmap_viewer__viewer__hpp_INCLUDED_
+#define _bitmap_viewer__viewer__hpp_INCLUDED_
 
 #include "item.hpp"
 #include "slider.hpp"
@@ -10,34 +18,34 @@
 namespace bitmap_viewer{
 
 
-class viewer: public QWidget{
-	Q_OBJECT
+	class viewer: public QWidget{
+		Q_OBJECT
 
-public:
-	enum class mode { scroll, scale, pass };
+	public:
+		enum class mode { scroll, scale, pass };
 
-	viewer();
+		viewer();
 
-	void set_bitmap(item const*);
-	void set_slider(slider const*);
+		void set_bitmap(item const*);
+		void set_slider(slider const*);
 
-public slots:
-	void next_mode();
-	void logarithm(bool logarithm);
+	public slots:
+		void next_mode();
+		void logarithm(bool logarithm);
 
-signals:
-	void info(QString);
+	signals:
+		void info(QString);
 
-protected:
-	virtual void mouseMoveEvent(QMouseEvent* event);
-	virtual void paintEvent(QPaintEvent* event);
+	protected:
+		virtual void mouseMoveEvent(QMouseEvent* event);
+		virtual void paintEvent(QPaintEvent* event);
 
-private:
-	item const* item_;
-	slider const* slider_;
-	mode mode_;
-	bool logarithm_;
-};
+	private:
+		item const* item_;
+		slider const* slider_;
+		mode mode_;
+		bool logarithm_;
+	};
 
 
 }

@@ -50,18 +50,14 @@ namespace bitmap_viewer{
 		}
 
 
-	#if !defined(_MSC_VER) || _MSC_VER > 1800
 		/// \brief Constructs a point by (0, 0)
-		point() = default;
+		point(): x_(), y_() {}
 
 		/// \brief Copy constructor
 		point(point const&) = default;
 
 		/// \brief Move constructor
 		point(point&&) = default;
-	#else
-		point(): x_(), y_() {}
-	#endif
 
 		/// \brief Constructs a point by (x, y)
 		point(value_type const& x, value_type const& y):
@@ -69,13 +65,11 @@ namespace bitmap_viewer{
 			{}
 
 
-	#if !defined(_MSC_VER) || _MSC_VER > 1800
 		/// \brief Copy assignment
 		point& operator=(point const&) = default;
 
 		/// \brief Move assignment
 		point& operator=(point&&) = default;
-	#endif
 
 
 		/// \brief Get true, if width and height are positiv

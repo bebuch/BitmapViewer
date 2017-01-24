@@ -1,22 +1,20 @@
-/// \file tools/rect.hpp
-/// \author Benjamin Buch (benni.buch@gmail.com)
-/// \date 07.05.2009
-/// \brief Class template tools::rect
-///
-/// Copyright (c) 2009-2015 Benjamin Buch (benni dot buch at gmail dot com)
-///
-/// Distributed under the Boost Software License, Version 1.0. (See accompanying
-/// file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
-///
-#ifndef _tools_rect_hpp_INCLUDED_
-#define _tools_rect_hpp_INCLUDED_
+//-----------------------------------------------------------------------------
+// Copyright (c) 2009-2017 Benjamin Buch
+//
+// https://github.com/bebuch/BitmapViewer
+//
+// Distributed under the Boost Software License, Version 1.0. (See accompanying
+// file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
+//-----------------------------------------------------------------------------
+#ifndef _bitmap_viewer__rect__hpp_INCLUDED_
+#define _bitmap_viewer__rect__hpp_INCLUDED_
 
 #include <algorithm>
 
 #include "point.hpp"
 #include "size.hpp"
 
-namespace tools {
+namespace bitmap_viewer{
 
 
 	/// \brief A class for manipulating rectangles
@@ -31,8 +29,6 @@ namespace tools {
 		using size_type = SizeType;
 
 
-
-	#if !defined(_MSC_VER) || _MSC_VER > 1800
 		/// \brief Constructs a blank rect
 		rect() = default;
 
@@ -41,9 +37,6 @@ namespace tools {
 
 		/// \brief Move constuctor
 		rect(rect&&) = default;
-	#else
-		rect(){}
-	#endif
 
 		/// \brief Constructs a rect on position (0, 0), with size width and height
 		rect(size_type const& width, size_type const& height):
@@ -51,7 +44,7 @@ namespace tools {
 			{}
 
 		/// \brief Constructs a rect on position (0, 0), with size size.width and size.height
-		rect(tools::size< size_type > const& size):
+		rect(bitmap_viewer::size< size_type > const& size):
 			size_(size)
 			{}
 
@@ -90,13 +83,11 @@ namespace tools {
 		}
 
 
-	#if !defined(_MSC_VER) || _MSC_VER > 1800
 		/// \brief Copy assignment
 		rect& operator=(rect const&) = default;
 
 		/// \brief Move assignment
 		rect& operator=(rect&&) = default;
-	#endif
 
 
 		/// \brief Get the x position
@@ -120,7 +111,7 @@ namespace tools {
 		}
 
 		/// \brief Get the size
-		tools::size< size_type > const size()const{
+		bitmap_viewer::size< size_type > const size()const{
 			return size_;
 		}
 
@@ -193,13 +184,13 @@ namespace tools {
 		}
 
 		/// \brief Set width and height
-		void set_size(tools::size< size_type > const& size){
+		void set_size(bitmap_viewer::size< size_type > const& size){
 			size_ = size;
 		}
 
 		/// \brief Set width and height
 		void set_size(size_type const& width, size_type const& height){
-			set_size(tools::size< size_type >{width, height});
+			set_size(bitmap_viewer::size< size_type >{width, height});
 		}
 
 
@@ -266,10 +257,10 @@ namespace tools {
 
 	private:
 		/// \brief The point in the top left corner
-		tools::point< position_type > top_left_;
+		bitmap_viewer::point< position_type > top_left_;
 
 		/// \brief The point in the bottom right corner
-		tools::size< size_type > size_;
+		bitmap_viewer::size< size_type > size_;
 	};
 
 
@@ -306,11 +297,11 @@ namespace tools {
 		rect< PositionType, SizeType > const& rhs
 	){
 		return rect< PositionType, SizeType >(
-			tools::point< PositionType >(
+			bitmap_viewer::point< PositionType >(
 				std::min(lhs.left(), rhs.left()),
 				std::min(lhs.top(), rhs.top())
 			),
-			tools::point< PositionType >(
+			bitmap_viewer::point< PositionType >(
 				std::max(lhs.right(), rhs.right()),
 				std::max(lhs.bottom(), rhs.bottom())
 			)
