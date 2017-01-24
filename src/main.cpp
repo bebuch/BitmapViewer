@@ -1,4 +1,4 @@
-#include "main_window.hpp"
+#include <BitmapViewer/main_window.hpp>
 
 #include <QApplication>
 

@@ -1,4 +1,4 @@
-#include "viewer.hpp"
+#include <BitmapViewer/viewer.hpp>
 
 #include <QMouseEvent>
 #include <QPaintEvent>

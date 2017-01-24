@@ -1,4 +1,4 @@
-#include "colors.hpp"
+#include <BitmapViewer/colors.hpp>
 
 #include <QPainter>
 

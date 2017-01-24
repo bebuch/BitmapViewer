@@ -1,4 +1,4 @@
-#include "list_model.hpp"
+#include <BitmapViewer/list_model.hpp>
 
 
 namespace bitmap_viewer{

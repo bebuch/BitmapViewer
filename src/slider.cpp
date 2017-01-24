@@ -1,4 +1,4 @@
-#include "slider.hpp"
+#include <BitmapViewer/slider.hpp>
 
 #include <QMouseEvent>
 #include <QPaintEvent>

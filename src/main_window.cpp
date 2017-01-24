@@ -1,6 +1,5 @@
-#include "main_window.hpp"
-
-#include "list_model.hpp"
+#include <BitmapViewer/main_window.hpp>
+#include <BitmapViewer/list_model.hpp>
 
 #include <QMessageBox>
 #include <QDropEvent>
