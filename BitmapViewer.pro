@@ -9,6 +9,7 @@ QT += core gui widgets
 CONFIG += c++14
 
 INCLUDEPATH += $$(BOOST)
+INCLUDEPATH += $$(BIG)/cpp/include
 
 
 TARGET = BitmapViewer
