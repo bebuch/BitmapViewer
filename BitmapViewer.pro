@@ -4,39 +4,47 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT += core gui widgets
 
-CONFIG += c++11
+CONFIG += c++14
 
-INCLUDEPATH += /media/data/libraries/boost_1_54_0
+INCLUDEPATH += $$(BOOST)
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = BitmapViewer
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-    main_window.cpp \
-    file_handler.cpp \
-    slider.cpp \
-    colors.cpp \
-    list_model.cpp \
-    item.cpp \
-    viewer.cpp
+SOURCES += \
+	src/main.cpp\
+    src/main_window.cpp \
+    src/file_handler.cpp \
+    src/slider.cpp \
+    src/colors.cpp \
+    src/list_model.cpp \
+    src/item.cpp \
+    src/viewer.cpp
 
 HEADERS  += \
-    main_window.hpp \
-    file_handler.hpp \
-    slider.hpp \
-    colors.hpp \
-    item.hpp \
-    list_model.hpp \
-    viewer.hpp
+	include/BitmapViewer/bitmap.hpp \
+	include/BitmapViewer/colors.hpp \
+	include/BitmapViewer/file_handler.hpp \
+	include/BitmapViewer/io.hpp \
+	include/BitmapViewer/item.hpp \
+	include/BitmapViewer/list_model.hpp \
+	include/BitmapViewer/main_window.hpp \
+	include/BitmapViewer/point_io.hpp \
+	include/BitmapViewer/point.hpp \
+	include/BitmapViewer/rect.hpp \
+	include/BitmapViewer/size_io.hpp \
+	include/BitmapViewer/size.hpp \
+	include/BitmapViewer/slider.hpp \
+	include/BitmapViewer/viewer.hpp
+
 
 FORMS    += \
-    main_window.ui \
-    info.ui
+    us/main_window.ui \
+    us/info.ui
 
 RESOURCES += \
-    Icons.qrc
+    qrc/icons.qrc
