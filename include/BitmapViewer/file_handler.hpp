@@ -9,8 +9,9 @@
 #ifndef _bitmap_viewer__file_handler__hpp_INCLUDED_
 #define _bitmap_viewer__file_handler__hpp_INCLUDED_
 
-#include "tools/matrix.hpp"
-#include "tools/big.hpp"
+#include "bitmap.hpp"
+
+#include <big.hpp>
 
 #include <boost/variant.hpp>
 
@@ -23,28 +24,28 @@ namespace bitmap_viewer{
 	template < bool is_floating_point >
 	struct init{
 		template < typename T >
-		static std::size_t undefined_count(tools::bitmap< T > const& bitmap);
+		static std::size_t undefined_count(bitmap< T > const& bitmap);
 
 		template < typename T >
-		static std::tuple< T, T > minmax(tools::bitmap< T > const& bitmap);
+		static std::tuple< T, T > minmax(bitmap< T > const& bitmap);
 	};
 
 	template <>
 	template < typename T >
-	std::size_t init< true >::undefined_count(tools::bitmap< T > const& bitmap){
+	std::size_t init< true >::undefined_count(bitmap< T > const& bitmap){
 		return std::count_if(bitmap.cbegin(), bitmap.cend(),
 			[](T v){return v != v;});
 	}
 
 	template <>
 	template < typename T >
-	std::size_t init< false >::undefined_count(tools::bitmap< T > const&){
+	std::size_t init< false >::undefined_count(bitmap< T > const&){
 		return 0;
 	}
 
 	template <>
 	template < typename T >
-	std::tuple< T, T > init< true >::minmax(tools::bitmap< T > const& bitmap){
+	std::tuple< T, T > init< true >::minmax(bitmap< T > const& bitmap){
 		auto iter = bitmap.cbegin();
 		while(iter != bitmap.cend() && std::isnan(*iter)) ++iter;
 		if(iter == bitmap.cend()) return std::make_tuple(T(), T());
@@ -62,8 +63,8 @@ namespace bitmap_viewer{
 
 	template <>
 	template < typename T >
-	std::tuple< T, T > init< false >::minmax(tools::bitmap< T > const& bitmap){
-		if(!point_count(bitmap)) return std::make_tuple(T(), T());
+	std::tuple< T, T > init< false >::minmax(bitmap< T > const& bitmap){
+		if(!bitmap.point_count()) return std::make_tuple(T(), T());
 
 		auto result = std::minmax_element(bitmap.cbegin(), bitmap.cend());
 		return std::make_tuple(*std::get< 0 >(result), *std::get< 1 >(result));
@@ -72,36 +73,36 @@ namespace bitmap_viewer{
 	template < typename T >
 	class bitmap_info{
 	public:
-		typedef T value_type;
+		using value_type = T;
 
 		bitmap_info(){}
 
-		bitmap_info(std::ifstream& is, tools::big::header header):
+		bitmap_info(std::ifstream& is, big::header header):
 			bitmap(load(is, header)),
 			minmax(init< std::is_floating_point< T >::value >::minmax(bitmap)),
 			undefined_count(init< std::is_floating_point< T >::value >
 				::undefined_count(bitmap))
 			{}
 
-		tools::bitmap< T > bitmap;
+		bitmap_viewer::bitmap< T > bitmap;
 		std::tuple< T, T > minmax;
 		std::size_t undefined_count;
 
 	private:
-		static tools::bitmap< T > load(
-			std::ifstream& is, tools::big::header header
+		static bitmap_viewer::bitmap< T > load(
+			std::ifstream& is, big::header header
 		){
-			tools::bitmap< T > bitmap(
-				tools::dimensions< 0, 0 >(header.cols, header.rows)
+			bitmap_viewer::bitmap< T > bitmap(
+				size< std::size_t >(header.width, header.height)
 			);
-			tools::big::read_data(bitmap, is);
+			big::read_data(bitmap, is);
 			return bitmap;
 		}
 	};
 
 
 	typedef boost::variant<
-			bitmap_info< bool >,
+//			bitmap_info< bool >,
 			bitmap_info< std::uint8_t >,
 			bitmap_info< std::uint16_t >,
 			bitmap_info< std::uint32_t >,

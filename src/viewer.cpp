@@ -72,11 +72,12 @@ namespace bitmap_viewer{
 
 	class print_value: public boost::static_visitor< QString >{
 	public:
-		print_value(tools::point_2d< std::size_t > const& point):point(point){}
+		print_value(bitmap_viewer::point< std::size_t > const& point):
+			point(point){}
 
 		template < typename T >
 		QString operator()(T const& info)const{
-			if(!is_point_in_range(point, info.bitmap)) return QString();
+			if(!is_point_in_bitmap(info.bitmap, point)) return QString();
 			return QString(QObject::tr("Position: %1, %2; Value: %3"))
 				.arg(point.x())
 				.arg(point.y())
@@ -84,7 +85,7 @@ namespace bitmap_viewer{
 		}
 
 	private:
-		tools::point_2d< std::size_t > const point;
+		bitmap_viewer::point< std::size_t > const point;
 	};
 
 	void viewer::mouseMoveEvent(QMouseEvent* event){
@@ -98,7 +99,7 @@ namespace bitmap_viewer{
 		if(mode_ != mode::scale && factor < 1) factor = 1;
 		point *= factor;
 
-		auto p = tools::make_point< std::size_t >(
+		auto p = bitmap_viewer::point< std::size_t >(
 			static_cast< std::size_t >(point.x()),
 			static_cast< std::size_t >(point.y())
 		);

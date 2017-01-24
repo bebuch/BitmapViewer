@@ -28,7 +28,8 @@ namespace bitmap_viewer{
 			typedef typename T::value_type value_type;
 
 			auto const& bitmap = info.bitmap;
-			QImage image(bitmap.cols(), bitmap.rows(), QImage::Format_ARGB32);
+			QImage image(
+				bitmap.width(), bitmap.height(), QImage::Format_ARGB32);
 
 			auto min = std::get< 0 >(info.minmax);
 			auto max = std::get< 1 >(info.minmax);
@@ -71,7 +72,7 @@ namespace bitmap_viewer{
 	template <>
 	QImage generate_image::operator()(bitmap_info< bool > const& info)const{
 		auto const& bitmap = info.bitmap;
-		QImage image(bitmap.cols(), bitmap.rows(), QImage::Format_ARGB32);
+		QImage image(bitmap.width(), bitmap.height(), QImage::Format_ARGB32);
 
 		std::transform(bitmap.begin(), bitmap.end(),
 			reinterpret_cast< unsigned* >(image.bits()),
@@ -186,14 +187,14 @@ namespace bitmap_viewer{
 	struct print_width: public boost::static_visitor< std::size_t >{
 		template < typename T >
 		std::size_t operator()(T const& info)const{
-			return info.bitmap.cols();
+			return info.bitmap.width();
 		}
 	};
 
 	struct print_height: public boost::static_visitor< std::size_t >{
 		template < typename T >
 		std::size_t operator()(T const& info)const{
-			return info.bitmap.rows();
+			return info.bitmap.height();
 		}
 	};
 

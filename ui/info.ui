@@ -27,34 +27,22 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QLabel" name="logo">
+    <widget class="QLabel" name="label">
      <property name="text">
       <string/>
      </property>
-     <property name="textFormat">
-      <enum>Qt::PlainText</enum>
-     </property>
      <property name="pixmap">
-      <pixmap resource="Icons.qrc">:/images/logo.svg</pixmap>
+      <pixmap resource="../qrc/icons.qrc">:/images/logo.svg</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-     <property name="indent">
-      <number>0</number>
-     </property>
-     <property name="textInteractionFlags">
-      <set>Qt::NoTextInteraction</set>
      </property>
     </widget>
    </item>
   </layout>
  </widget>
  <resources>
-  <include location="Icons.qrc"/>
+  <include location="../qrc/icons.qrc"/>
  </resources>
  <connections/>
 </ui>
