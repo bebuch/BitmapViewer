@@ -60,6 +60,8 @@ namespace bitmap_viewer{
 		dialog_.setFileMode(QFileDialog::AnyFile);
 		dialog_.setNameFilter(tr("Portable Network Graphics (*.png)"));
 		if(!dialog_.exec()) return;
+
+//		save_files(dialog_.selectedFiles());
 	}
 
 	void main_window::close_selected(){

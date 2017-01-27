@@ -25,7 +25,8 @@ SOURCES += \
     src/colors.cpp \
     src/list_model.cpp \
     src/item.cpp \
-    src/viewer.cpp
+    src/viewer.cpp \
+    src/list_view.cpp
 
 HEADERS  += \
     include/BitmapViewer/bitmap.hpp \
@@ -41,7 +42,8 @@ HEADERS  += \
     include/BitmapViewer/size_io.hpp \
     include/BitmapViewer/size.hpp \
     include/BitmapViewer/slider.hpp \
-    include/BitmapViewer/viewer.hpp
+    include/BitmapViewer/viewer.hpp \
+    include/BitmapViewer/list_view.hpp
 
 
 FORMS    += \

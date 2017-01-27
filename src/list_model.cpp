@@ -12,7 +12,7 @@
 namespace bitmap_viewer{
 
 
-	list_model::list_model(QObject *parent) :
+	list_model::list_model(QObject *parent):
 		QAbstractListModel(parent)
 		{}
 

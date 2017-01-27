@@ -202,7 +202,7 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QListView" name="list">
+      <widget class="bitmap_viewer::list_view" name="list">
        <property name="minimumSize">
         <size>
          <width>200</width>
@@ -449,6 +449,11 @@
     <signal>info(QString)</signal>
     <slot>next_mode()</slot>
    </slots>
+  </customwidget>
+  <customwidget>
+   <class>bitmap_viewer::list_view</class>
+   <extends>QListView</extends>
+   <header>../include/BitmapViewer/list_view.hpp</header>
   </customwidget>
  </customwidgets>
  <resources>
