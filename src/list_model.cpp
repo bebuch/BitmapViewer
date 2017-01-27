@@ -40,7 +40,13 @@ namespace bitmap_viewer{
 		}
 
 		if(role == Qt::ToolTipRole){
-			return bitmaps_.at(index.row()).path();
+			return bitmaps_.at(index.row()).path_and_file();
+		}
+
+		if(role == Qt::UserRole){
+			QVariant result;
+			result.setValue(bitmaps_.at(index.row()));
+			return result;
 		}
 
 		return QVariant();

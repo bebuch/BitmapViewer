@@ -27,6 +27,7 @@ namespace bitmap_viewer{
 
 		QString filename()const;
 		QString path()const;
+		QString path_and_file()const;
 
 		QString type()const;
 

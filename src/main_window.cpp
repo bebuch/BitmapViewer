@@ -48,6 +48,7 @@ namespace bitmap_viewer{
 
 	void main_window::open(){
 		dialog_.setAcceptMode(QFileDialog::AcceptOpen);
+		dialog_.setOption(QFileDialog::ShowDirsOnly, false);
 		dialog_.setFileMode(QFileDialog::ExistingFiles);
 		dialog_.setNameFilter(tr("Big Files (*.big);;All Files (*)"));
 		if(!dialog_.exec()) return;
@@ -56,12 +57,43 @@ namespace bitmap_viewer{
 	}
 
 	void main_window::save(){
-		dialog_.setAcceptMode(QFileDialog::AcceptSave);
-		dialog_.setFileMode(QFileDialog::AnyFile);
-		dialog_.setNameFilter(tr("Portable Network Graphics (*.png)"));
-		if(!dialog_.exec()) return;
+		QModelIndexList indexes = ui.list->selectionModel()->selectedIndexes();
+		if(indexes.size() == 0){
+			QMessageBox::information(this, tr("No image selected"),
+				tr("Please select at least one image."));
+		}else if(indexes.size() == 1){
+			auto const data = indexes[0].data(Qt::UserRole).value< item >();
 
-//		save_files(dialog_.selectedFiles());
+			dialog_.setAcceptMode(QFileDialog::AcceptSave);
+			dialog_.setOption(QFileDialog::ShowDirsOnly, false);
+			dialog_.setFileMode(QFileDialog::AnyFile);
+			dialog_.setNameFilter(tr("Portable Network Graphics (*.png)"));
+			QMessageBox::information(this, "log", data.path());
+			dialog_.setDirectory(data.path());
+			if(!dialog_.exec()) return;
+
+			auto const files = dialog_.selectedFiles();
+			assert(files.size() == 1);
+			auto const filename = files[0];
+
+			save_image(data, filename);
+		}else{
+			auto const data = indexes[0].data(Qt::UserRole).value< item >();
+
+			dialog_.setAcceptMode(QFileDialog::AcceptSave);
+			dialog_.setFileMode(QFileDialog::AnyFile);
+			dialog_.setOption(QFileDialog::ShowDirsOnly, true);
+			dialog_.setNameFilter(tr("Portable Network Graphics (*.png)"));
+			dialog_.setDirectory(data.path());
+			if(!dialog_.exec()) return;
+
+			for(auto const& index: indexes){
+				auto const data = index.data().value< item >();
+				auto filename = data.filename();
+				filename = filename.left(filename.lastIndexOf("."));
+				save_image(data, filename + ".png");
+			}
+		}
 	}
 
 	void main_window::close_selected(){
@@ -119,9 +151,12 @@ namespace bitmap_viewer{
 
 		if(errors.isEmpty()) return;
 
-		QMessageBox message(QMessageBox::Warning, tr("Loading problems"),
+		QMessageBox::warning(this, tr("Loading problems"),
 			tr("Could not load all files:\n") + errors.join("\n"));
-		message.exec();
+	}
+
+	void main_window::save_image(item const& item, QString const& filename){
+
 	}
 
 

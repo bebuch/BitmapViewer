@@ -212,6 +212,10 @@ namespace bitmap_viewer{
 	}
 
 	QString item::path()const{
+		return filename_.absolutePath();
+	}
+
+	QString item::path_and_file()const{
 		return filename_.absoluteFilePath();
 	}
 
