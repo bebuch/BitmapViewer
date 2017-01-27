@@ -110,7 +110,7 @@ namespace bitmap_viewer{
 	}
 
 	QBrush make_brush(){
-		QBrush brush(Qt::TexturePattern);
+		QBrush brush;
 		QPixmap background(16, 16);
 		{
 			QPainter painter(&background);
