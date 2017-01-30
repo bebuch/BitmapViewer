@@ -49,7 +49,8 @@ namespace bitmap_viewer{
 			return QColor(c, c, c);
 		}
 
-		QBrush make_brush(){
+		/// \brief Brush with background texture for undef pixels
+		QBrush make_background_brush(){
 			QBrush brush;
 			QPixmap background(16, 16);
 			{
@@ -122,8 +123,8 @@ namespace bitmap_viewer{
 		return QColor();
 	}
 
-	QBrush const& colors::brush()const{
-		static auto brush = make_brush();
+	QBrush const& colors::background_brush()const{
+		static auto const brush = make_background_brush();
 		return brush;
 	}
 

@@ -32,7 +32,7 @@ namespace bitmap_viewer{
 		void contrast_line(bool enable);
 		void next_palette();
 
-		QBrush const& brush()const;
+		QBrush const& background_brush()const;
 		QColor operator()(unsigned i)const;
 
 	private:

@@ -119,7 +119,7 @@ namespace bitmap_viewer{
 				QPainter painter(&pixmap);
 				QRectF rect(0, 0, pixmap.width(), pixmap.height());
 				painter.setPen(Qt::NoPen);
-				painter.setBrush(color.brush());
+				painter.setBrush(color.background_brush());
 				painter.drawRect(rect);
 				painter.drawImage(rect, image);
 			}

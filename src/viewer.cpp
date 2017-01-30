@@ -133,7 +133,7 @@ namespace bitmap_viewer{
 	)const{
 		painter.setRenderHint(QPainter::SmoothPixmapTransform, false);
 		painter.setPen(Qt::NoPen);
-		painter.setBrush(slider_->colors.brush());
+		painter.setBrush(slider_->colors.background_brush());
 		painter.drawRect(rect);
 		painter.drawImage(rect,
 			item->image(slider_->colors, slider_->shift(), logarithm_));
