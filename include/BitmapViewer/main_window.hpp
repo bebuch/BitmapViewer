@@ -32,7 +32,7 @@ namespace bitmap_viewer{
 		void close_selected();
 		void show_bitmap(QModelIndex index);
 		void load_files(QStringList const& filenames);
-		void save_image(item const& item, QString const& filename);
+		bool save_image(item const* const item, QString const& filename)const;
 
 	protected:
 		virtual void dragEnterEvent(QDragEnterEvent* event);

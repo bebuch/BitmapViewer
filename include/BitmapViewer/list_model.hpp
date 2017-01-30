@@ -61,7 +61,7 @@ namespace bitmap_viewer{
 		item const* get(std::size_t index)const;
 
 	private:
-		QList< item > bitmaps_;
+		QList< item > items_;
 	};
 
 

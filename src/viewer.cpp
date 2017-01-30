@@ -116,12 +116,21 @@ namespace bitmap_viewer{
 
 		QPainter painter(this);
 		QRectF rect(0, 0, iw * factor, ih * factor);
+
+		draw_item(painter, item_, rect);
+	}
+
+	void viewer::draw_item(
+		QPainter& painter,
+		item const* item,
+		QRectF const& rect
+	)const{
 		painter.setRenderHint(QPainter::SmoothPixmapTransform, false);
 		painter.setPen(Qt::NoPen);
 		painter.setBrush(slider_->colors.brush());
 		painter.drawRect(rect);
 		painter.drawImage(rect,
-			item_->image(slider_->colors, slider_->shift(), logarithm_));
+			item->image(slider_->colors, slider_->shift(), logarithm_));
 	}
 
 

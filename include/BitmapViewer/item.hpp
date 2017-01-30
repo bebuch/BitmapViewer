@@ -57,6 +57,7 @@ namespace bitmap_viewer{
 }
 
 Q_DECLARE_METATYPE(bitmap_viewer::item)
+Q_DECLARE_METATYPE(bitmap_viewer::item const*)
 
 
 #endif

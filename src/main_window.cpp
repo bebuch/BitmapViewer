@@ -12,6 +12,7 @@
 #include <QMessageBox>
 #include <QDropEvent>
 #include <QMimeData>
+#include <QPainter>
 #include <QUrl>
 
 
@@ -62,36 +63,59 @@ namespace bitmap_viewer{
 			QMessageBox::information(this, tr("No image selected"),
 				tr("Please select at least one image."));
 		}else if(indexes.size() == 1){
-			auto const data = indexes[0].data(Qt::UserRole).value< item >();
+			auto const data = indexes[0].data(Qt::UserRole)
+				.value< item const* >();
 
 			dialog_.setAcceptMode(QFileDialog::AcceptSave);
 			dialog_.setOption(QFileDialog::ShowDirsOnly, false);
 			dialog_.setFileMode(QFileDialog::AnyFile);
 			dialog_.setNameFilter(tr("Portable Network Graphics (*.png)"));
-			QMessageBox::information(this, "log", data.path());
-			dialog_.setDirectory(data.path());
+			dialog_.setDirectory(data->path());
 			if(!dialog_.exec()) return;
 
 			auto const files = dialog_.selectedFiles();
 			assert(files.size() == 1);
-			auto const filename = files[0];
+			auto filename = files[0];
 
-			save_image(data, filename);
+			// add .png as file extention if not already exist
+			if(!filename.endsWith(".png", Qt::CaseInsensitive)){
+				filename += ".png";
+			}
+
+			if(!save_image(data, filename)){
+				QMessageBox::warning(this, tr("Saving problem"),
+					tr("Could not save file:\n") + filename);
+			}
 		}else{
-			auto const data = indexes[0].data(Qt::UserRole).value< item >();
+			auto const data = indexes[0].data(Qt::UserRole)
+				.value< item const* >();
 
 			dialog_.setAcceptMode(QFileDialog::AcceptSave);
-			dialog_.setFileMode(QFileDialog::AnyFile);
+			dialog_.setFileMode(QFileDialog::Directory);
 			dialog_.setOption(QFileDialog::ShowDirsOnly, true);
 			dialog_.setNameFilter(tr("Portable Network Graphics (*.png)"));
-			dialog_.setDirectory(data.path());
+			dialog_.setDirectory(data->path());
 			if(!dialog_.exec()) return;
 
+			auto const files = dialog_.selectedFiles();
+			assert(files.size() == 1);
+			auto path = files[0];
+
+			QStringList errors;
 			for(auto const& index: indexes){
-				auto const data = index.data().value< item >();
-				auto filename = data.filename();
-				filename = filename.left(filename.lastIndexOf("."));
-				save_image(data, filename + ".png");
+				auto const data = index.data(Qt::UserRole)
+					.value< item const* >();
+				auto filename = data->filename();
+				filename = filename.left(filename.lastIndexOf(".")) + ".png";
+				filename = QFileInfo(path, filename).absoluteFilePath();
+				if(!save_image(data, filename)){
+					errors.append(filename);
+				}
+			}
+
+			if(errors.size() > 0){
+				QMessageBox::warning(this, tr("Saving problems"),
+					tr("Could not save all files:\n") + errors.join("\n"));
 			}
 		}
 	}
@@ -106,7 +130,7 @@ namespace bitmap_viewer{
 
 	void main_window::show_bitmap(QModelIndex index){
 		auto model = dynamic_cast< list_model const* >(ui.list->model());
-		if(!model) return;
+		if(!model || !index.isValid()) return;
 
 		ui.viewer->set_bitmap(model->get(index.row()));
 	}
@@ -155,8 +179,16 @@ namespace bitmap_viewer{
 			tr("Could not load all files:\n") + errors.join("\n"));
 	}
 
-	void main_window::save_image(item const& item, QString const& filename){
-
+	bool main_window::save_image(
+		item const* const item,
+		QString const& filename
+	)const{
+		QImage img(item->width(), item->height(), QImage::Format_RGB32);
+		{
+			QPainter painter(&img);
+			ui.viewer->draw_item(painter, item, img.rect());
+		}
+		return img.save(filename, "PNG");
 	}
 
 

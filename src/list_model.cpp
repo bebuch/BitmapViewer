@@ -17,14 +17,14 @@ namespace bitmap_viewer{
 		{}
 
 	int list_model::rowCount(QModelIndex const&)const{
-		return bitmaps_.size();
+		return items_.size();
 	}
 
 	QVariant list_model::data(QModelIndex const& index, int role)const{
 		if(!index.isValid()) return QVariant();
 
 		if(role == Qt::DisplayRole){
-			auto const& info = bitmaps_.at(index.row());
+			auto const& info = items_.at(index.row());
 			return
 				info.filename() + "\n" +
 				QString(tr("%1\n")).arg(info.type()) +
@@ -36,16 +36,16 @@ namespace bitmap_viewer{
 		}
 
 		if(role == Qt::DecorationRole){
-			return bitmaps_.at(index.row()).icon();
+			return items_.at(index.row()).icon();
 		}
 
 		if(role == Qt::ToolTipRole){
-			return bitmaps_.at(index.row()).path_and_file();
+			return items_.at(index.row()).path_and_file();
 		}
 
 		if(role == Qt::UserRole){
 			QVariant result;
-			result.setValue(bitmaps_.at(index.row()));
+			result.setValue(&items_.at(index.row()));
 			return result;
 		}
 
@@ -73,7 +73,7 @@ namespace bitmap_viewer{
 		if(index.isValid() && role == Qt::EditRole){
 			int row = index.row();
 			auto bitmap = value.value< item >();
-			bitmaps_.replace(row, bitmap);
+			items_.replace(row, bitmap);
 
 			emit(dataChanged(index, index));
 			return true;
@@ -91,7 +91,7 @@ namespace bitmap_viewer{
 		beginInsertRows(parent, row, row + count - 1);
 
 		for(int i = 0; i < count; ++i){
-			bitmaps_.insert(row, item());
+			items_.insert(row, item());
 		}
 
 		endInsertRows();
@@ -102,7 +102,7 @@ namespace bitmap_viewer{
 		beginRemoveRows(parent, row, row + count - 1);
 
 		for(int i = 0; i < count; ++i){
-			bitmaps_.removeAt(row);
+			items_.removeAt(row);
 		}
 
 		endRemoveRows();
@@ -110,7 +110,7 @@ namespace bitmap_viewer{
 	}
 
 	void list_model::append_files(QList< item > const& list){
-		auto count = bitmaps_.size();
+		auto count = items_.size();
 		if(!insertRows(count, list.size())) return;
 
 		for(int i = 0; i < list.size(); ++i){
@@ -129,7 +129,7 @@ namespace bitmap_viewer{
 	}
 
 	item const* list_model::get(std::size_t index)const{
-		return &bitmaps_.at(index);
+		return &items_.at(index);
 	}
 
 

@@ -29,6 +29,12 @@ namespace bitmap_viewer{
 		void set_bitmap(item const*);
 		void set_slider(slider const*);
 
+		void draw_item(
+			QPainter& painter,
+			item const* item,
+			QRectF const& rect
+		)const;
+
 	public slots:
 		void next_mode();
 		void logarithm(bool logarithm);
