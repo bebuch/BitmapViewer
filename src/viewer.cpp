@@ -18,6 +18,37 @@
 namespace bitmap_viewer{
 
 
+	namespace{
+
+		template < typename T >
+		QString toQString(T const& v){
+			std::ostringstream os;
+			os << v;
+			return os.str().c_str();
+		}
+
+		class print_value: public boost::static_visitor< QString >{
+		public:
+			print_value(bitmap_viewer::point< std::size_t > const& point):
+				point(point){}
+
+			template < typename T >
+			QString operator()(T const& info)const{
+				if(!is_point_in_bitmap(info.bitmap, point)) return QString();
+				auto const value = static_cast< double >(info.bitmap(point));
+				return QString(QObject::tr("Position: %1, %2; Value: %3"))
+					.arg(point.x())
+					.arg(point.y())
+					.arg(toQString(value));
+			}
+
+		private:
+			bitmap_viewer::point< std::size_t > const point;
+		};
+
+	}
+
+
 	viewer::viewer():
 		item_(nullptr),
 		slider_(nullptr),
@@ -62,31 +93,6 @@ namespace bitmap_viewer{
 		logarithm_ = logarithm;
 		repaint();
 	}
-
-	template < typename T >
-	QString toQString(T const& v){
-		std::ostringstream os;
-		os << v;
-		return os.str().c_str();
-	}
-
-	class print_value: public boost::static_visitor< QString >{
-	public:
-		print_value(bitmap_viewer::point< std::size_t > const& point):
-			point(point){}
-
-		template < typename T >
-		QString operator()(T const& info)const{
-			if(!is_point_in_bitmap(info.bitmap, point)) return QString();
-			return QString(QObject::tr("Position: %1, %2; Value: %3"))
-				.arg(point.x())
-				.arg(point.y())
-				.arg(toQString(info.bitmap(point)));
-		}
-
-	private:
-		bitmap_viewer::point< std::size_t > const point;
-	};
 
 	void viewer::mouseMoveEvent(QMouseEvent* event){
 		if(!slider_ || !item_) return;

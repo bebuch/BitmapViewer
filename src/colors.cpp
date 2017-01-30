@@ -14,6 +14,61 @@
 namespace bitmap_viewer{
 
 
+	namespace{
+
+
+		constexpr double unsigned_value_count =
+			std::numeric_limits< unsigned >::max() + 1.0;
+
+		QColor calc_rainbow(unsigned i){
+			double pos = i / unsigned_value_count;
+
+			if(pos < 1. / 6){
+				pos *= 3 * M_PI;
+				return QColor(255, 0, std::sin(M_PI / 2 - pos) * 255);
+			}else if(pos >= 1. / 6 && pos < 2. / 6){
+				pos = (pos - 1. / 6) * 3 * M_PI;
+				return QColor(255, std::sin(pos) * 255, 0);
+			}else if(pos >= 2. / 6 && pos < 3. / 6){
+				pos = (pos - 2. / 6) * 3 * M_PI;
+				return QColor(std::sin(M_PI / 2 - pos) * 255, 255, 0);
+			}else if(pos >= 3. / 6 && pos < 4. / 6){
+				pos = (pos - 3. / 6) * 3 * M_PI;
+				return QColor(0, 255, std::sin(pos) * 255);
+			}else if(pos >= 4. / 6 && pos < 5. / 6){
+				pos = (pos - 4. / 6) * 3 * M_PI;
+				return QColor(0, std::sin(M_PI / 2 - pos) * 255, 255);
+			}else{
+				pos = (pos - 5. / 6) * 3 * M_PI;
+				return QColor(std::sin(pos) * 255, 0, 255);
+			}
+		}
+
+		QColor calc_gray(unsigned i){
+			int const c = static_cast< int >(i / unsigned_value_count * 256);
+			return QColor(c, c, c);
+		}
+
+		QBrush make_brush(){
+			QBrush brush;
+			QPixmap background(16, 16);
+			{
+				QPainter painter(&background);
+				painter.setPen(Qt::NoPen);
+				painter.setBrush(QBrush(0x999999));
+				painter.drawRect(0, 0, 8, 8);
+				painter.drawRect(8, 8, 8, 8);
+				painter.setBrush(QBrush(0x666666));
+				painter.drawRect(8, 0, 8, 8);
+				painter.drawRect(0, 8, 8, 8);
+			}
+			brush.setTexture(background);
+			return brush;
+		}
+
+
+	}
+
 	colors::colors(type t):
 		fold_(1),
 		type_(t)
@@ -37,7 +92,7 @@ namespace bitmap_viewer{
 		}
 	}
 
-	void colors::next(){
+	void colors::next_palette(){
 		switch(type_){
 			case type::rainbow:{
 				type_ = type::gray;
@@ -51,50 +106,8 @@ namespace bitmap_viewer{
 		update();
 	}
 
-	QColor calc_rainbow(unsigned i){
-		double pos = i / (std::numeric_limits< unsigned >::max() + 1.);
-
-// 		// Original colors (red, green, blue)
-// 		int b = static_cast< int >(
-// 			pos < 2. / 3 ? std::sin(pos * 3 * M_PI / 2) * 255 : 0);
-// 		int g = static_cast< int >(
-// 			pos >= 1. / 3 ? std::sin((pos - 1. / 3) * 3 * M_PI / 2) * 255 : 0);
-// 		int r = static_cast< int >(
-// 			pos < 1. / 3 ? std::sin(pos * 3 * M_PI / 2 + M_PI / 2) * 255 :
-// 			(pos >= 2. / 3 ? std::sin((pos - 2. / 3) * 3 * M_PI / 2) * 255 : 0)
-// 		);
-// 		return QColor(r, g, b);
-
-		// 6 colors
-		if(pos < 1. / 6){
-			pos *= 3 * M_PI;
-			return QColor(255, 0, std::sin(M_PI / 2 - pos) * 255);
-		}else if(pos >= 1. / 6 && pos < 2. / 6){
-			pos = (pos - 1. / 6) * 3 * M_PI;
-			return QColor(255, std::sin(pos) * 255, 0);
-		}else if(pos >= 2. / 6 && pos < 3. / 6){
-			pos = (pos - 2. / 6) * 3 * M_PI;
-			return QColor(std::sin(M_PI / 2 - pos) * 255, 255, 0);
-		}else if(pos >= 3. / 6 && pos < 4. / 6){
-			pos = (pos - 3. / 6) * 3 * M_PI;
-			return QColor(0, 255, std::sin(pos) * 255);
-		}else if(pos >= 4. / 6 && pos < 5. / 6){
-			pos = (pos - 4. / 6) * 3 * M_PI;
-			return QColor(0, std::sin(M_PI / 2 - pos) * 255, 255);
-		}else{
-			pos = (pos - 5. / 6) * 3 * M_PI;
-			return QColor(std::sin(pos) * 255, 0, 255);
-		}
-	}
-
-	QColor calc_gray(unsigned i){
-		unsigned c = i / ((std::numeric_limits< unsigned >::max() >> 8) + 1);
-		return QColor(c, c, c);
-	}
-
 	QColor colors::operator()(unsigned i)const{
-		bool contrast = i < (static_cast< double >(
-			std::numeric_limits< unsigned >::max()) + 1) / 100;
+		bool const contrast = i < (unsigned_value_count / 100);
 
 		switch(type_){
 			case type::rainbow:{
@@ -107,23 +120,6 @@ namespace bitmap_viewer{
 			}
 		}
 		return QColor();
-	}
-
-	QBrush make_brush(){
-		QBrush brush;
-		QPixmap background(16, 16);
-		{
-			QPainter painter(&background);
-			painter.setPen(Qt::NoPen);
-			painter.setBrush(QBrush(0x999999));
-			painter.drawRect(0, 0, 8, 8);
-			painter.drawRect(8, 8, 8, 8);
-			painter.setBrush(QBrush(0x666666));
-			painter.drawRect(8, 0, 8, 8);
-			painter.drawRect(0, 8, 8, 8);
-		}
-		brush.setTexture(background);
-		return brush;
 	}
 
 	QBrush const& colors::brush()const{

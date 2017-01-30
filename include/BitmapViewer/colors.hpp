@@ -30,7 +30,7 @@ namespace bitmap_viewer{
 		void set_fold(std::uint16_t fold);
 
 		void contrast_line(bool enable);
-		void next();
+		void next_palette();
 
 		QBrush const& brush()const;
 		QColor operator()(unsigned i)const;

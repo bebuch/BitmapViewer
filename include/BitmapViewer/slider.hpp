@@ -32,7 +32,7 @@ namespace bitmap_viewer{
 
 		void contrast_line(bool enable);
 
-		void next();
+		void next_palette();
 
 		void right_shift();
 		void left_shift();

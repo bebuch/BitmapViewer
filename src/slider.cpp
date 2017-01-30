@@ -41,8 +41,8 @@ namespace bitmap_viewer{
 		colors.contrast_line(enable);
 	}
 
-	void slider::next(){
-		colors.next();
+	void slider::next_palette(){
+		colors.next_palette();
 	}
 
 	void slider::right_shift(){

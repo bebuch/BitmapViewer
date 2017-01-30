@@ -16,6 +16,16 @@
 
 namespace bitmap_viewer{
 
+	namespace{
+
+		constexpr double unsigned_max =
+			std::numeric_limits< unsigned >::max();
+
+		constexpr double unsigned_value_count =
+			unsigned_max + 1.0;
+
+	}
+
 
 	class generate_image: public boost::static_visitor< QImage >{
 	public:
@@ -31,30 +41,25 @@ namespace bitmap_viewer{
 			QImage image(
 				bitmap.width(), bitmap.height(), QImage::Format_ARGB32);
 
-			auto min = std::get< 0 >(info.minmax);
-			auto max = std::get< 1 >(info.minmax);
-			double factor = std::numeric_limits< unsigned >::max() /
-				static_cast< double >(
-					logarithm_ ?
-					std::log(max - min) :
-					max - min
-				);
+			auto const min = std::get< 0 >(info.minmax);
+			auto const max = std::get< 1 >(info.minmax);
+			auto const diff = static_cast< double >(max - min);
 
 			std::transform(bitmap.begin(), bitmap.end(),
 				reinterpret_cast< unsigned* >(image.bits()),
-				[this, min, factor](value_type value)->unsigned{
+				[this, min, diff](value_type value)->unsigned{
 					if(
 						std::is_floating_point< typename T::value_type >::value
 						&& std::isnan(value)
 					){
-						return 0;
+						return QColor(0, 0, 0, 0).rgba();
 					}else{
-						return
-							color_(static_cast< unsigned >((
-								logarithm_ ?
-								std::log(value - min) :
-								value - min
-							) * factor) + shift_).rgba();
+						auto const vdiff = (value - min) / diff;
+						auto const shift_value = static_cast< unsigned >(
+							(logarithm_ ? std::log(vdiff) : vdiff) *
+							unsigned_max
+						);
+						return color_(shift_value + shift_).rgba();
 					}
 				}
 			);
@@ -69,29 +74,43 @@ namespace bitmap_viewer{
 	};
 
 
-	template <>
-	QImage generate_image::operator()(bitmap_info< bool > const& info)const{
-		auto const& bitmap = info.bitmap;
-		QImage image(bitmap.width(), bitmap.height(), QImage::Format_ARGB32);
+//	template <>
+//	QImage generate_image::operator()(bitmap_info< bool > const& info)const{
+//		auto const& bitmap = info.bitmap;
+//		QImage image(bitmap.width(), bitmap.height(), QImage::Format_ARGB32);
 
-		std::transform(bitmap.begin(), bitmap.end(),
-			reinterpret_cast< unsigned* >(image.bits()),
-			[this](bool value)->unsigned{
-				return color_((value ? (unsigned() - 1) / 2 : 0) + shift_)
-					.rgba();
-			}
-		);
+//		std::transform(bitmap.begin(), bitmap.end(),
+//			reinterpret_cast< unsigned* >(image.bits()),
+//			[this](bool value)->unsigned{
+//				return color_((value ? (unsigned() - 1) / 2 : 0) + shift_)
+//					.rgba();
+//			}
+//		);
 
-		return image;
-	}
+//		return image;
+//	}
 
 	class generate_icon: public boost::static_visitor< QPixmap >{
+	private:
+		template < typename T >
+		struct palette{
+			static constexpr auto value =
+				std::is_floating_point< T >::value
+				? colors::type::rainbow
+				: colors::type::gray;
+		};
+
+		template < typename T >
+		static constexpr auto palette_v = palette< T >::value;
+
 	public:
 		template < typename T >
 		QPixmap operator()(T const& info)const{
-			auto image = generate_image(proxy<
-					std::is_floating_point< typename T::value_type >::value
-				>::color, 0)(info)
+			constexpr auto palette = palette_v< typename T::value_type >;
+
+			auto const color = colors(palette);
+
+			auto image = generate_image(color, 0)(info)
 				.scaled(96, 96, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
 			QPixmap pixmap(image.width(), image.height());
@@ -100,28 +119,14 @@ namespace bitmap_viewer{
 				QPainter painter(&pixmap);
 				QRectF rect(0, 0, pixmap.width(), pixmap.height());
 				painter.setPen(Qt::NoPen);
-				painter.setBrush(proxy<
-						std::is_floating_point< typename T::value_type >::value
-					>::color.brush());
+				painter.setBrush(color.brush());
 				painter.drawRect(rect);
 				painter.drawImage(rect, image);
 			}
 
 			return pixmap;
 		}
-
-	private:
-		template < bool is_floating_point >
-		struct proxy{
-			static colors const color;
-		};
 	};
-
-	template <>
-	colors const generate_icon::proxy< true >::color(colors::type::rainbow);
-
-	template <>
-	colors const generate_icon::proxy< false >::color(colors::type::gray);
 
 
 	template < typename T >

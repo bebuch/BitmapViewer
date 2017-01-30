@@ -159,6 +159,7 @@
    </attribute>
    <addaction name="action_change_palette"/>
    <addaction name="action_next_show_mode"/>
+   <addaction name="separator"/>
   </widget>
   <widget class="QToolBar" name="tool_markers">
    <property name="windowTitle">
@@ -431,7 +432,7 @@
    <container>1</container>
    <slots>
     <slot>contrast_line(bool)</slot>
-    <slot>next()</slot>
+    <slot>next_palette()</slot>
     <slot>right_shift()</slot>
     <slot>left_shift()</slot>
     <slot>fold_exponential()</slot>
@@ -496,7 +497,7 @@
    <sender>action_change_palette</sender>
    <signal>triggered()</signal>
    <receiver>slider</receiver>
-   <slot>next()</slot>
+   <slot>next_palette()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
