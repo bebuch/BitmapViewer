@@ -36,10 +36,6 @@ namespace bitmap_viewer{
 			ui.status, SLOT(showMessage(QString))
 		);
 		connect(
-			ui.action_logarithm, SIGNAL(triggered(bool)),
-			ui.viewer, SLOT(logarithm(bool))
-		);
-		connect(
 			ui.action_next_show_mode, SIGNAL(triggered()),
 			ui.viewer, SLOT(next_mode())
 		);

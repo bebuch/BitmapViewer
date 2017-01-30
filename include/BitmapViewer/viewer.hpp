@@ -37,7 +37,6 @@ namespace bitmap_viewer{
 
 	public slots:
 		void next_mode();
-		void logarithm(bool logarithm);
 
 	signals:
 		void info(QString);
@@ -50,7 +49,6 @@ namespace bitmap_viewer{
 		item const* item_;
 		slider const* slider_;
 		mode mode_;
-		bool logarithm_;
 	};
 
 

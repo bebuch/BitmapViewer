@@ -104,7 +104,6 @@
     <addaction name="action_next_show_mode"/>
     <addaction name="separator"/>
     <addaction name="action_show_contrast_line"/>
-    <addaction name="action_logarithm"/>
     <addaction name="separator"/>
    </widget>
    <widget class="QMenu" name="menu_help">
@@ -172,7 +171,6 @@
     <bool>false</bool>
    </attribute>
    <addaction name="action_show_contrast_line"/>
-   <addaction name="action_logarithm"/>
   </widget>
   <widget class="QStatusBar" name="status"/>
   <widget class="QDockWidget" name="dock">
@@ -402,24 +400,6 @@
    </property>
    <property name="text">
     <string>&amp;Info</string>
-   </property>
-  </action>
-  <action name="action_logarithm">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../qrc/icons.qrc">
-     <normaloff>:/images/logarithm.svg</normaloff>:/images/logarithm.svg</iconset>
-   </property>
-   <property name="text">
-    <string>&amp;Logarithm</string>
-   </property>
-   <property name="toolTip">
-    <string>Logarithm or linear palette</string>
-   </property>
-   <property name="shortcut">
-    <string>L</string>
    </property>
   </action>
  </widget>

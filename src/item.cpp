@@ -30,8 +30,8 @@ namespace bitmap_viewer{
 	class generate_image: public boost::static_visitor< QImage >{
 	public:
 		generate_image(
-			colors const& color, unsigned shift, bool logarithm = false
-		): color_(color), shift_(shift), logarithm_(logarithm){}
+			colors const& color, unsigned shift
+		): color_(color), shift_(shift){}
 
 		template < typename T >
 		QImage operator()(T const& info)const{
@@ -55,10 +55,8 @@ namespace bitmap_viewer{
 						return QColor(0, 0, 0, 0).rgba();
 					}else{
 						auto const vdiff = (value - min) / diff;
-						auto const shift_value = static_cast< unsigned >(
-							(logarithm_ ? std::log(vdiff) : vdiff) *
-							unsigned_max
-						);
+						auto const shift_value =
+							static_cast< unsigned >(vdiff * unsigned_max);
 						return color_(shift_value + shift_).rgba();
 					}
 				}
@@ -70,7 +68,6 @@ namespace bitmap_viewer{
 	private:
 		colors const& color_;
 		unsigned shift_;
-		bool logarithm_;
 	};
 
 
@@ -248,11 +245,8 @@ namespace bitmap_viewer{
 		return boost::apply_visitor(print_height(), bitmap_);
 	}
 
-	QImage item::image(
-		colors const& color, unsigned shift, bool logarithm
-	)const{
-		return boost::apply_visitor(
-			generate_image(color, shift, logarithm), bitmap_);
+	QImage item::image(colors const& color, unsigned shift)const{
+		return boost::apply_visitor(generate_image(color, shift), bitmap_);
 	}
 
 	QPixmap item::icon()const{

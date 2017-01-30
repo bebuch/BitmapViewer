@@ -52,8 +52,7 @@ namespace bitmap_viewer{
 	viewer::viewer():
 		item_(nullptr),
 		slider_(nullptr),
-		mode_(mode::pass),
-		logarithm_(false)
+		mode_(mode::pass)
 	{
 		setMouseTracking(true);
 	}
@@ -86,11 +85,6 @@ namespace bitmap_viewer{
 			if(item_) setMinimumSize(item_->width(), item_->height());
 		break;
 		}
-		repaint();
-	}
-
-	void viewer::logarithm(bool logarithm){
-		logarithm_ = logarithm;
 		repaint();
 	}
 
@@ -135,8 +129,7 @@ namespace bitmap_viewer{
 		painter.setPen(Qt::NoPen);
 		painter.setBrush(slider_->colors.background_brush());
 		painter.drawRect(rect);
-		painter.drawImage(rect,
-			item->image(slider_->colors, slider_->shift(), logarithm_));
+		painter.drawImage(rect, item->image(slider_->colors, slider_->shift()));
 	}
 
 

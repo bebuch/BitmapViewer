@@ -13,7 +13,6 @@
         <file>../images/show_mode.svg</file>
         <file>../images/unfold_exponential.svg</file>
         <file>../images/unfold_linear.svg</file>
-		<file>../images/logo.svg</file>
-		<file>../images/logarithm.svg</file>
+        <file>../images/logo.svg</file>
     </qresource>
 </RCC>

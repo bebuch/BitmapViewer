@@ -39,7 +39,7 @@ namespace bitmap_viewer{
 
 		std::size_t undefined_count()const;
 
-		QImage image(colors const& color, unsigned shift, bool logarithm)const;
+		QImage image(colors const& color, unsigned shift)const;
 
 		QPixmap icon()const;
 
