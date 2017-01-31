@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
-// Copyright (c) 2009-2017 Benjamin Buch
+// Copyright (c) 2015-2016 Benjamin Buch
 //
-// https://github.com/bebuch/BitmapViewer
+// https://github.com/bebuch/bitmap_viewer
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
@@ -12,76 +12,198 @@
 
 namespace bitmap_viewer{
 
-	/// \brief A class for manipulating points
-	/// \tparam ValueType Type of the position data
-	template < typename ValueType >
-	class point{
+
+	namespace detail{ namespace point{
+
+
+		template < typename TX, typename TY >
+		struct point_base{};
+
+		template < typename T >
+		struct point_base< T, T >{
+			/// \brief Type of the positions
+			using value_type = T;
+		};
+
+
+	} }
+
+
+	/// \brief A class for representing points
+	/// \tparam TX Type of the x position data
+	/// \tparam TY Type of the y position data
+	template < typename TX, typename TY = TX >
+	class point: public detail::point::point_base< TX, TY >{
 	public:
-		/// \brief Type of the positions
-		using value_type = ValueType;
+		/// \brief Type of the x positions
+		using x_value_type = TX;
+
+		/// \brief Type of the y positions
+		using y_value_type = TY;
 
 
 		/// \brief The x
-		value_type& x(){
-			return x_;
-		}
+		constexpr x_value_type& x(){ return x_; }
 
 		/// \brief The y
-		value_type& y(){
-			return y_;
-		}
+		constexpr y_value_type& y(){ return y_; }
 
 
 		/// \brief The x
-		value_type const& x()const{
-			return x_;
-		}
+		constexpr x_value_type const& x()const{ return x_; }
 
 		/// \brief The y
-		value_type const& y()const{
-			return y_;
-		}
+		constexpr y_value_type const& y()const{ return y_; }
 
 
 		/// \brief Set x and y
-		void set(value_type const& x, value_type const& y){
+		constexpr void set(x_value_type const& x, y_value_type const& y){
 			x_ = x;
 			y_ = y;
 		}
 
 
 		/// \brief Constructs a point by (0, 0)
-		point(): x_(), y_() {}
+		constexpr point(): x_(), y_() {}
 
 		/// \brief Copy constructor
-		point(point const&) = default;
+		constexpr point(point const&) = default;
 
 		/// \brief Move constructor
-		point(point&&) = default;
+		constexpr point(point&&) = default;
 
 		/// \brief Constructs a point by (x, y)
-		point(value_type const& x, value_type const& y):
+		constexpr point(x_value_type const& x, y_value_type const& y):
 			x_(x), y_(y)
 			{}
 
 
 		/// \brief Copy assignment
-		point& operator=(point const&) = default;
+		constexpr point& operator=(point const&) = default;
 
 		/// \brief Move assignment
-		point& operator=(point&&) = default;
+		constexpr point& operator=(point&&) = default;
 
 
-		/// \brief Get true, if width and height are positiv
-		bool is_positive()const{
-			return x() >= value_type() && y() >= value_type();
+		/// \brief Get true, if x and y are positiv
+		constexpr bool is_positive()const{
+			return x() >= x_value_type() && y() >= y_value_type();
 		}
 
 
 	private:
-		value_type x_;
-		value_type y_;
+		x_value_type x_;
+		y_value_type y_;
 	};
+
+
+	template < typename TX, typename TY >
+	constexpr bool operator==(
+		point< TX, TY > const& a,
+		point< TX, TY > const& b
+	){
+		return a.x() == b.x() && a.y() == b.y();
+	}
+
+	template < typename TX, typename TY >
+	constexpr bool operator!=(
+		point< TX, TY > const& a,
+		point< TX, TY > const& b
+	){
+		return !(a == b);
+	}
+
+
+	template < typename TX, typename TY >
+	constexpr point< TX, TY >& operator+=(
+		point< TX, TY >& a,
+		point< TX, TY > const& b
+	){
+		a.x() += b.x();
+		a.y() += b.y();
+		return a;
+	}
+
+	template < typename TX, typename TY >
+	constexpr point< TX, TY >& operator-=(
+		point< TX, TY >& a,
+		point< TX, TY > const& b
+	){
+		a.x() -= b.x();
+		a.y() -= b.y();
+		return a;
+	}
+
+	template < typename TX, typename TY >
+	constexpr point< TX, TY >& operator*=(
+		point< TX, TY >& a,
+		point< TX, TY > const& b
+	){
+		a.x() *= b.x();
+		a.y() *= b.y();
+		return a;
+	}
+
+	template < typename TX, typename TY >
+	constexpr point< TX, TY >& operator/=(
+		point< TX, TY >& a,
+		point< TX, TY > const& b
+	){
+		a.x() /= b.x();
+		a.y() /= b.y();
+		return a;
+	}
+
+	template < typename TX, typename TY >
+	constexpr point< TX, TY >& operator%=(
+		point< TX, TY >& a,
+		point< TX, TY > const& b
+	){
+		a.x() %= b.x();
+		a.y() %= b.y();
+		return a;
+	}
+
+
+	template < typename TX, typename TY >
+	constexpr point< TX, TY > operator+(
+		point< TX, TY > a,
+		point< TX, TY > const& b
+	){
+		return a += b;
+	}
+
+	template < typename TX, typename TY >
+	constexpr point< TX, TY > operator-(
+		point< TX, TY > a,
+		point< TX, TY > const& b
+	){
+		return a -= b;
+	}
+
+	template < typename TX, typename TY >
+	constexpr point< TX, TY > operator*(
+		point< TX, TY > a,
+		point< TX, TY > const& b
+	){
+		return a *= b;
+	}
+
+	template < typename TX, typename TY >
+	constexpr point< TX, TY > operator/(
+		point< TX, TY > a,
+		point< TX, TY > const& b
+	){
+		return a /= b;
+	}
+
+	template < typename TX, typename TY >
+	constexpr point< TX, TY > operator%(
+		point< TX, TY > a,
+		point< TX, TY > const& b
+	){
+		return a %= b;
+	}
 
 
 }
