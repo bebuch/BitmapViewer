@@ -9,7 +9,7 @@
 #ifndef _bitmap_viewer__file_handler__hpp_INCLUDED_
 #define _bitmap_viewer__file_handler__hpp_INCLUDED_
 
-#include "bitmap.hpp"
+#include <bitmap/bitmap.hpp>
 
 #include <big.hpp>
 
@@ -19,6 +19,11 @@
 
 
 namespace bitmap_viewer{
+
+
+	using ::bitmap::bitmap;
+	using ::bitmap::point;
+	using ::bitmap::size;
 
 
 	template < bool is_floating_point >

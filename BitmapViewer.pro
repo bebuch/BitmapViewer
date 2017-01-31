@@ -10,6 +10,7 @@ CONFIG += c++14
 
 INCLUDEPATH += $$(BOOST)
 INCLUDEPATH += $$(BIG)/cpp/include
+INCLUDEPATH += $$(BITMAP)/include
 INCLUDEPATH += ./include
 
 
@@ -29,18 +30,12 @@ SOURCES += \
     src/list_view.cpp
 
 HEADERS  += \
-    include/BitmapViewer/bitmap.hpp \
     include/BitmapViewer/colors.hpp \
     include/BitmapViewer/file_handler.hpp \
     include/BitmapViewer/io.hpp \
     include/BitmapViewer/item.hpp \
     include/BitmapViewer/list_model.hpp \
     include/BitmapViewer/main_window.hpp \
-    include/BitmapViewer/point_io.hpp \
-    include/BitmapViewer/point.hpp \
-    include/BitmapViewer/rect.hpp \
-    include/BitmapViewer/size_io.hpp \
-    include/BitmapViewer/size.hpp \
     include/BitmapViewer/slider.hpp \
     include/BitmapViewer/viewer.hpp \
     include/BitmapViewer/list_view.hpp
