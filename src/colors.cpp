@@ -70,8 +70,9 @@ namespace bitmap_viewer{
 
 	}
 
-	colors::colors(type t):
+	colors::colors(type t, unsigned strips):
 		fold_(1),
+		strips_(strips),
 		type_(t)
 		{}
 
@@ -85,12 +86,20 @@ namespace bitmap_viewer{
 		return fold_;
 	}
 
+	unsigned colors::strips()const{
+		return strips_;
+	}
+
 	void colors::set_fold(std::uint16_t fold){
 		fold = fold ? fold : 1;
 		if(fold_ != fold){
 			fold_ = fold;
 			update();
 		}
+	}
+
+	void colors::set_strips(unsigned strips){
+		strips_ = strips;
 	}
 
 	void colors::next_palette(){
@@ -107,17 +116,40 @@ namespace bitmap_viewer{
 		update();
 	}
 
-	QColor colors::operator()(unsigned i)const{
-		bool const contrast = i < (unsigned_value_count / 100);
+	unsigned colors::step_pos(unsigned pos)const{
+		return static_cast< unsigned >(
+			pos / (unsigned_value_count / strips_)
+		);
+	}
+
+	unsigned colors::pass_step_pos(unsigned step_pos)const{
+		return static_cast< unsigned >(
+			std::ceil(step_pos * (unsigned_value_count / strips_))
+		);
+	}
+
+	unsigned colors::pass_pos(unsigned pos)const{
+		return pass_step_pos(step_pos(pos));
+	}
+
+	QColor colors::operator()(unsigned pos)const{
+		pos = pass_pos(pos);
+
+		bool const contrast =
+			pos < static_cast< unsigned >(unsigned_value_count / strips_);
 
 		switch(type_){
 			case type::rainbow:{
-				if(contrast_line_ && contrast) return calc_gray(i * 100);
-				return calc_rainbow(i * fold_);
+				if(contrast_line_ && contrast){
+					return calc_gray(pos * strips_);
+				}
+				return calc_rainbow(pos * fold_);
 			}
 			case type::gray:{
-				if(contrast_line_ && contrast) return calc_rainbow(i * 100);
-				return calc_gray(i * fold_);
+				if(contrast_line_ && contrast){
+					return calc_rainbow(pos * strips_);
+				}
+				return calc_gray(pos * fold_);
 			}
 		}
 		return QColor();

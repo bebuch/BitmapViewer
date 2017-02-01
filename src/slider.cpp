@@ -14,6 +14,7 @@
 #include <QPainter>
 
 #include <cmath>
+#include <iostream>
 
 
 namespace bitmap_viewer{
@@ -34,10 +35,15 @@ namespace bitmap_viewer{
 	}
 
 	void slider::set_shift(unsigned s){
-		shift_ = s;
+		shift_ = colors.pass_pos(s);
 		repaint();
 		shift_changed(s);
 		change();
+	}
+
+	void slider::set_strips(unsigned count){
+		colors.set_strips(count);
+		repaint();
 	}
 
 	void slider::contrast_line(bool enable){
@@ -49,11 +55,22 @@ namespace bitmap_viewer{
 	}
 
 	void slider::right_shift(){
-		set_shift(shift_ - shift_range / 100);
+		auto step_pos = colors.step_pos(shift_);
+		if(step_pos == 0){
+			step_pos = colors.strips() - 1;
+		}else{
+			--step_pos;
+		}
+		set_shift(colors.pass_step_pos(step_pos));
 	}
 
 	void slider::left_shift(){
-		set_shift(shift_ + shift_range / 100);
+		auto step_pos = colors.step_pos(shift_);
+		++step_pos;
+		if(step_pos >= colors.strips()){
+			step_pos = 0;
+		}
+		set_shift(colors.pass_step_pos(step_pos));
 	}
 
 	void slider::fold_linear(){

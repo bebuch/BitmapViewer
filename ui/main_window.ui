@@ -32,17 +32,40 @@
     </property>
     <item>
      <widget class="bitmap_viewer::slider" name="slider" native="true">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="minimumSize">
        <size>
         <width>0</width>
         <height>32</height>
        </size>
       </property>
-      <zorder>scrollArea</zorder>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>32</height>
+       </size>
+      </property>
      </widget>
     </item>
     <item>
      <widget class="QScrollArea" name="scrollArea">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>100</width>
+        <height>100</height>
+       </size>
+      </property>
       <property name="frameShape">
        <enum>QFrame::NoFrame</enum>
       </property>
@@ -60,9 +83,15 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>602</width>
-         <height>492</height>
+         <width>535</width>
+         <height>438</height>
         </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>100</height>
+        </size>
        </property>
       </widget>
      </widget>
@@ -328,6 +357,22 @@
        </property>
       </widget>
      </item>
+     <item row="2" column="1">
+      <widget class="QSpinBox" name="spin_strips">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="minimum">
+        <number>2</number>
+       </property>
+       <property name="maximum">
+        <number>1000000</number>
+       </property>
+       <property name="value">
+        <number>256</number>
+       </property>
+      </widget>
+     </item>
      <item row="0" column="1">
       <widget class="QDoubleSpinBox" name="spin_min">
        <property name="readOnly">
@@ -348,7 +393,7 @@
       </widget>
      </item>
      <item row="2" column="0">
-      <widget class="QLabel" name="label_steps">
+      <widget class="QLabel" name="label_strips">
        <property name="text">
         <string>Strips:</string>
        </property>
@@ -362,24 +407,11 @@
        <property name="text">
         <string>Prefer interger range</string>
        </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
        <property name="checked">
         <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QSpinBox" name="spin_steps">
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-       <property name="minimum">
-        <number>2</number>
-       </property>
-       <property name="maximum">
-        <number>1000000</number>
-       </property>
-       <property name="value">
-        <number>256</number>
        </property>
       </widget>
      </item>

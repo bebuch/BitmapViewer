@@ -14,6 +14,7 @@
 #include <QMimeData>
 #include <QPainter>
 #include <QUrl>
+#include <QSpinBox>
 
 
 namespace bitmap_viewer{
@@ -39,6 +40,29 @@ namespace bitmap_viewer{
 			ui.action_next_show_mode, SIGNAL(triggered()),
 			ui.viewer, SLOT(next_mode())
 		);
+
+		connect(
+			ui.check_auto_slider, &QCheckBox::stateChanged,
+			[this](int value){
+				bool state = !(value == Qt::Unchecked);
+				ui.spin_max->setReadOnly(state);
+				ui.spin_min->setReadOnly(state);
+				ui.spin_strips->setReadOnly(state);
+				ui.check_int_range->setEnabled(state);
+				ui.check_int_range->setChecked(state);
+				ui.check_int_range->repaint();
+			}
+		);
+
+		connect(
+			ui.spin_strips,
+			static_cast< void(QSpinBox::*)(int) >(&QSpinBox::valueChanged),
+			[this](int value){
+				ui.slider->set_strips(value);
+				ui.viewer->repaint();
+			}
+		);
+
 
 		setAcceptDrops(true);
 	}

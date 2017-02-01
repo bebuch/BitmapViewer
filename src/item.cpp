@@ -105,7 +105,7 @@ namespace bitmap_viewer{
 		QPixmap operator()(T const& info)const{
 			constexpr auto palette = palette_v< typename T::value_type >;
 
-			auto const color = colors(palette);
+			auto const color = colors(palette, 256);
 
 			auto image = generate_image(color, 0)(info)
 				.scaled(96, 96, Qt::KeepAspectRatio, Qt::SmoothTransformation);

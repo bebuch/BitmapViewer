@@ -22,22 +22,29 @@ namespace bitmap_viewer{
 	public:
 		enum class type { rainbow, gray };
 
-		colors(type t = type::rainbow);
+		colors(type t = type::rainbow, unsigned strips = 256);
 
 		boost::signals2::signal< void() > update;
 
 		std::uint16_t fold()const;
+		unsigned strips()const;
 		void set_fold(std::uint16_t fold);
+		void set_strips(unsigned strips);
+
+		unsigned step_pos(unsigned pos)const;
+		unsigned pass_step_pos(unsigned step_pos)const;
+		unsigned pass_pos(unsigned pos)const;
 
 		void contrast_line(bool enable);
 		void next_palette();
 
 		QBrush const& background_brush()const;
-		QColor operator()(unsigned i)const;
+		QColor operator()(unsigned pos)const;
 
 	private:
 		bool contrast_line_ = false;
 		std::uint16_t fold_;
+		unsigned strips_;
 		type type_;
 	};
 

@@ -28,7 +28,8 @@ namespace bitmap_viewer{
 		unsigned shift()const{return shift_;}
 
 	public slots:
-		void set_shift(unsigned);
+		void set_shift(unsigned pos);
+		void set_strips(unsigned count);
 
 		void contrast_line(bool enable);
 
