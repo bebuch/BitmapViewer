@@ -122,7 +122,7 @@ namespace bitmap_viewer{
 			painter.drawLine(i, 0, i, height());
 		}
 
-		auto text = QString("Pos: %1").arg(shift_);
+		auto text = QString("Pos: %1").arg(colors.step_pos(shift_));
 		auto flags = Qt::AlignLeft | Qt::AlignVCenter;
 		auto fontfactor = 0.7;
 		auto fontsize = height() * fontfactor;
