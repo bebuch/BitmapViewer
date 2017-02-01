@@ -35,7 +35,7 @@
       <property name="minimumSize">
        <size>
         <width>0</width>
-        <height>24</height>
+        <height>32</height>
        </size>
       </property>
       <zorder>scrollArea</zorder>
@@ -61,7 +61,7 @@
          <x>0</x>
          <y>0</y>
          <width>608</width>
-         <height>500</height>
+         <height>492</height>
         </rect>
        </property>
       </widget>

@@ -104,18 +104,31 @@ namespace bitmap_viewer{
 			painter.setPen(colors(shift_ + i * (shift_range / w)));
 			painter.drawLine(i, 0, i, height());
 		}
+
 		auto text = QString("Pos: %1").arg(shift_);
+		auto flags = Qt::AlignLeft | Qt::AlignVCenter;
+		auto fontfactor = 0.7;
+		auto fontsize = height() * fontfactor;
+		auto x_offset = height() * (1 - fontfactor) / 2;
+		auto p1 = QPointF(x_offset, 0);
+		auto p2 = QPointF(w - 2*x_offset, height());
+
 		QFont font;
-		font.setPixelSize(height());
-		painter.setFont(font);
+		font.setPixelSize(fontsize);
+		font.setStyleStrategy(QFont::PreferAntialias);
+		font.setStyleStrategy(QFont::PreferQuality);
+
 		painter.setRenderHint(QPainter::TextAntialiasing);
+		painter.setFont(font);
 		painter.setPen(Qt::white);
-		painter.drawText(QRectF( 1,  1, w, height()), text);
-		painter.drawText(QRectF( 1, -1, w, height()), text);
-		painter.drawText(QRectF(-1,  1, w, height()), text);
-		painter.drawText(QRectF(-1, -1, w, height()), text);
+		int range = 2;
+		for(int y = -range; y <= range; ++y){
+			for(int x = -range; x <= range; ++x){
+				painter.drawText(QRectF(p1 + QPointF(x, y), p2), text, flags);
+			}
+		}
 		painter.setPen(Qt::black);
-		painter.drawText(QRectF(0, 0, w, height()), text);
+		painter.drawText(QRectF(p1, p2), text, flags);
 	}
 
 	void slider::wheelEvent(QWheelEvent* event){
