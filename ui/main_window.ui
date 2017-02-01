@@ -60,7 +60,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>608</width>
+         <width>602</width>
          <height>492</height>
         </rect>
        </property>
@@ -295,7 +295,7 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="0" colspan="2">
+     <item row="5" column="0" colspan="2">
       <widget class="QLabel" name="label_strip">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -318,7 +318,7 @@
        </property>
       </widget>
      </item>
-     <item row="5" column="0" colspan="2">
+     <item row="6" column="0" colspan="2">
       <widget class="QComboBox" name="combo_strip">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -348,31 +348,38 @@
       </widget>
      </item>
      <item row="2" column="0">
-      <widget class="QLabel" name="label_step">
+      <widget class="QLabel" name="label_steps">
        <property name="text">
-        <string>Step:</string>
+        <string>Strips:</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
       </widget>
      </item>
+     <item row="4" column="0" colspan="2">
+      <widget class="QCheckBox" name="check_int_range">
+       <property name="text">
+        <string>Prefer interger range</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
      <item row="2" column="1">
-      <widget class="QDoubleSpinBox" name="spin_step">
+      <widget class="QSpinBox" name="spin_steps">
        <property name="readOnly">
         <bool>true</bool>
        </property>
-       <property name="decimals">
-        <number>3</number>
-       </property>
        <property name="minimum">
-        <double>0.001000000000000</double>
+        <number>2</number>
        </property>
        <property name="maximum">
-        <double>1000000000.000000000000000</double>
+        <number>1000000</number>
        </property>
        <property name="value">
-        <double>1.000000000000000</double>
+        <number>256</number>
        </property>
       </widget>
      </item>
