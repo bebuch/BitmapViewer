@@ -41,16 +41,35 @@ namespace bitmap_viewer{
 			ui.viewer, SLOT(next_mode())
 		);
 
+		auto min_value = [this]{ return ui.spin_min->value(); };
+		auto max_value = [this]{ return ui.spin_max->value(); };
+		auto int_range = [this]{ return ui.check_int_range->isChecked(); };
+		auto auto_range = [this]{ return ui.check_auto_slider->isChecked(); };
+
 		connect(
 			ui.check_auto_slider, &QCheckBox::stateChanged,
-			[this](int value){
+			[this, min_value, max_value, int_range](int value){
 				bool state = !(value == Qt::Unchecked);
 				ui.spin_max->setReadOnly(state);
 				ui.spin_min->setReadOnly(state);
-				ui.spin_strips->setReadOnly(state);
 				ui.check_int_range->setEnabled(state);
 				ui.check_int_range->setChecked(state);
 				ui.check_int_range->repaint();
+
+				ui.viewer->set_slider_settings(
+					min_value(), max_value(), state, int_range()
+				);
+			}
+		);
+
+		connect(
+			ui.check_int_range, &QCheckBox::stateChanged,
+			[this, min_value, max_value, auto_range](int value){
+				bool state = !(value == Qt::Unchecked);
+
+				ui.viewer->set_slider_settings(
+					min_value(), max_value(), auto_range(), state
+				);
 			}
 		);
 
@@ -59,7 +78,41 @@ namespace bitmap_viewer{
 			static_cast< void(QSpinBox::*)(int) >(&QSpinBox::valueChanged),
 			[this](int value){
 				ui.slider->set_strips(value);
-				ui.viewer->repaint();
+			}
+		);
+
+		connect(
+			ui.spin_min,
+			static_cast< void(QDoubleSpinBox::*)(double) >
+				(&QDoubleSpinBox::valueChanged),
+			[this, max_value, auto_range, int_range](double value){
+				ui.spin_max->setMinimum(value);
+				ui.viewer->set_slider_settings(
+					value, max_value(), auto_range(), int_range()
+				);
+			}
+		);
+
+		connect(
+			ui.spin_max,
+			static_cast< void(QDoubleSpinBox::*)(double) >
+				(&QDoubleSpinBox::valueChanged),
+			[this, min_value, auto_range, int_range](double value){
+				ui.spin_min->setMaximum(value);
+				ui.viewer->set_slider_settings(
+					min_value(), value, auto_range(), int_range()
+				);
+			}
+		);
+
+		connect(
+			ui.viewer, &viewer::slider_settings_changed,
+			[this](double min, double max, bool auto_range, bool int_range){
+				QSignalBlocker block(this); (void)block;
+				ui.spin_min->setValue(min);
+				ui.spin_max->setValue(max);
+				ui.check_auto_slider->setChecked(auto_range);
+				ui.check_int_range->setChecked(int_range);
 			}
 		);
 

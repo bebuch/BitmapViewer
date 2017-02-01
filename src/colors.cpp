@@ -73,6 +73,10 @@ namespace bitmap_viewer{
 	colors::colors(type t, unsigned strips):
 		fold_(1),
 		strips_(strips),
+		min_(0),
+		max_(255),
+		auto_range_(true),
+		int_range_(false),
 		type_(t)
 		{}
 
@@ -90,6 +94,24 @@ namespace bitmap_viewer{
 		return strips_;
 	}
 
+	double colors::min()const{
+		return min_;
+	}
+
+	double colors::max()const{
+		return max_;
+	}
+
+	bool colors::auto_range()const{
+		return auto_range_;
+	}
+
+	bool colors::int_range()const{
+		return int_range_;
+	}
+
+
+
 	void colors::set_fold(std::uint16_t fold){
 		fold = fold ? fold : 1;
 		if(fold_ != fold){
@@ -100,6 +122,22 @@ namespace bitmap_viewer{
 
 	void colors::set_strips(unsigned strips){
 		strips_ = strips;
+	}
+
+	void colors::set_min(double pos){
+		min_ = pos;
+	}
+
+	void colors::set_max(double pos){
+		max_ = pos;
+	}
+
+	void colors::set_auto_range(bool on){
+		auto_range_ = on;
+	}
+
+	void colors::set_int_range(bool on){
+		int_range_ = on;
 	}
 
 	void colors::next_palette(){

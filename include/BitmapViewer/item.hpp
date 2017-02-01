@@ -34,10 +34,15 @@ namespace bitmap_viewer{
 		QString min()const;
 		QString max()const;
 
+		std::tuple< double, double > minmax_values()const;
+		std::tuple< double, double > minmax_type_values()const;
+
 		std::size_t width()const;
 		std::size_t height()const;
 
 		std::size_t undefined_count()const;
+
+		bool is_float()const;
 
 		QImage image(colors const& color, unsigned shift)const;
 

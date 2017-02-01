@@ -43,7 +43,7 @@ namespace bitmap_viewer{
 
 	void slider::set_strips(unsigned count){
 		colors.set_strips(count);
-		repaint();
+		set_shift(shift());
 	}
 
 	void slider::contrast_line(bool enable){

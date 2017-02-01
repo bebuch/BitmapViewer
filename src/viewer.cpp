@@ -62,10 +62,19 @@ namespace bitmap_viewer{
 		if(mode_ == mode::scroll && item_){
 			setMinimumSize(item_->width(), item_->height());
 		}
+		auto_range_set();
 		repaint();
+
+		if(!slider_) return;
+		slider_settings_changed(
+			slider_->colors.min(),
+			slider_->colors.max(),
+			slider_->colors.auto_range(),
+			slider_->colors.int_range()
+		);
 	}
 
-	void viewer::set_slider(slider const* s){
+	void viewer::set_slider(slider* s){
 		slider_ = s;
 		repaint();
 	}
@@ -86,6 +95,49 @@ namespace bitmap_viewer{
 		break;
 		}
 		repaint();
+	}
+
+	void viewer::auto_range_set(){
+		if(!slider_ || !item_) return;
+
+		if(slider_->colors.auto_range()){
+			double min, max;
+			if(slider_->colors.int_range() && !item_->is_float()){
+				std::tie(min, max) = item_->minmax_type_values();
+			}else{
+				std::tie(min, max) = item_->minmax_values();
+			}
+			slider_->colors.set_min(min);
+			slider_->colors.set_max(max);
+		}
+	}
+
+	void viewer::set_slider_settings(
+		double min,
+		double max,
+		bool auto_range,
+		bool int_range
+	){
+		if(!slider_ || !item_) return;
+
+		slider_->colors.set_auto_range(auto_range);
+		slider_->colors.set_int_range(int_range);
+
+		if(!auto_range){
+			slider_->colors.set_min(min);
+			slider_->colors.set_max(max);
+		}else{
+			auto_range_set();
+		}
+
+		repaint();
+
+		slider_settings_changed(
+			slider_->colors.min(),
+			slider_->colors.max(),
+			slider_->colors.auto_range(),
+			slider_->colors.int_range()
+		);
 	}
 
 	void viewer::mouseMoveEvent(QMouseEvent* event){

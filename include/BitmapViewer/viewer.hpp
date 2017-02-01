@@ -27,7 +27,7 @@ namespace bitmap_viewer{
 		viewer();
 
 		void set_bitmap(item const*);
-		void set_slider(slider const*);
+		void set_slider(slider*);
 
 		void draw_item(
 			QPainter& painter,
@@ -37,17 +37,31 @@ namespace bitmap_viewer{
 
 	public slots:
 		void next_mode();
+		void set_slider_settings(
+			double min,
+			double max,
+			bool auto_range,
+			bool int_range
+		);
 
 	signals:
 		void info(QString);
+		void slider_settings_changed(
+			double min,
+			double max,
+			bool auto_range,
+			bool int_range
+		);
 
 	protected:
 		virtual void mouseMoveEvent(QMouseEvent* event);
 		virtual void paintEvent(QPaintEvent* event);
 
 	private:
+		void auto_range_set();
+
 		item const* item_;
-		slider const* slider_;
+		slider* slider_;
 		mode mode_;
 	};
 

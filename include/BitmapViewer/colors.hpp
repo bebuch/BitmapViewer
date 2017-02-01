@@ -28,8 +28,17 @@ namespace bitmap_viewer{
 
 		std::uint16_t fold()const;
 		unsigned strips()const;
+		double min()const;
+		double max()const;
+		bool auto_range()const;
+		bool int_range()const;
+
 		void set_fold(std::uint16_t fold);
 		void set_strips(unsigned strips);
+		void set_min(double pos);
+		void set_max(double pos);
+		void set_auto_range(bool on);
+		void set_int_range(bool on);
 
 		unsigned step_pos(unsigned pos)const;
 		unsigned pass_step_pos(unsigned step_pos)const;
@@ -45,6 +54,10 @@ namespace bitmap_viewer{
 		bool contrast_line_ = false;
 		std::uint16_t fold_;
 		unsigned strips_;
+		double min_;
+		double max_;
+		bool auto_range_;
+		bool int_range_;
 		type type_;
 	};
 
