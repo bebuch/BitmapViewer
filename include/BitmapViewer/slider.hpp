@@ -55,6 +55,8 @@ namespace bitmap_viewer{
 		virtual void wheelEvent(QWheelEvent* event);
 
 	private:
+		unsigned inc_step(unsigned step, int inc)const;
+
 		bool active_;
 		unsigned shift_;
 		unsigned startpos_;

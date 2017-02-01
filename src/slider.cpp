@@ -54,22 +54,26 @@ namespace bitmap_viewer{
 		colors.next_palette();
 	}
 
+	unsigned slider::inc_step(unsigned step, int inc)const{
+		if(inc < 0){
+			inc = -inc % colors.strips();
+			step += colors.strips() - inc;
+		}else{
+			step += inc;
+			step %= colors.strips();
+		}
+		return step;
+	}
+
 	void slider::right_shift(){
 		auto step_pos = colors.step_pos(shift_);
-		if(step_pos == 0){
-			step_pos = colors.strips() - 1;
-		}else{
-			--step_pos;
-		}
+		step_pos = inc_step(step_pos, -1);
 		set_shift(colors.pass_step_pos(step_pos));
 	}
 
 	void slider::left_shift(){
 		auto step_pos = colors.step_pos(shift_);
-		++step_pos;
-		if(step_pos >= colors.strips()){
-			step_pos = 0;
-		}
+		step_pos = inc_step(step_pos, 1);
 		set_shift(colors.pass_step_pos(step_pos));
 	}
 
@@ -149,12 +153,16 @@ namespace bitmap_viewer{
 	}
 
 	void slider::wheelEvent(QWheelEvent* event){
-		double factor = 2;
-		if(event->buttons() & Qt::LeftButton) factor = 32;
-		if(event->buttons() & Qt::RightButton) factor = 0.5;
-		auto add = event->angleDelta().y() * (shift_range / (360 * 8 * factor));
-		startshift_ += add;
-		set_shift(shift() + add);
+		auto step_pos = colors.step_pos(shift_);
+		double factor = 1;
+		if(event->buttons() & Qt::LeftButton) factor = 0.25;
+		if(event->buttons() & Qt::RightButton) factor = 4;
+		step_pos = inc_step(
+			step_pos,
+			std::max(factor * colors.strips() / 32, 1.) *
+			(event->angleDelta().y() > 0 ? 1 : -1)
+		);
+		set_shift(colors.pass_step_pos(step_pos));
 	}
 
 
