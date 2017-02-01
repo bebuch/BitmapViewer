@@ -25,7 +25,10 @@ namespace bitmap_viewer{
 	slider::slider(QWidget* parent):
 		QWidget(parent),
 		active_(false),
-		startpos_(0){
+		shift_(0),
+		startpos_(0),
+		startshift_(0)
+	{
 		setCursor(Qt::OpenHandCursor);
 		colors.update.connect([this]{repaint();change();});
 	}
@@ -101,6 +104,18 @@ namespace bitmap_viewer{
 			painter.setPen(colors(shift_ + i * (shift_range / w)));
 			painter.drawLine(i, 0, i, height());
 		}
+		auto text = QString("Pos: %1").arg(shift_);
+		QFont font;
+		font.setPixelSize(height());
+		painter.setFont(font);
+		painter.setRenderHint(QPainter::TextAntialiasing);
+		painter.setPen(Qt::white);
+		painter.drawText(QRectF( 1,  1, w, height()), text);
+		painter.drawText(QRectF( 1, -1, w, height()), text);
+		painter.drawText(QRectF(-1,  1, w, height()), text);
+		painter.drawText(QRectF(-1, -1, w, height()), text);
+		painter.setPen(Qt::black);
+		painter.drawText(QRectF(0, 0, w, height()), text);
 	}
 
 	void slider::wheelEvent(QWheelEvent* event){
