@@ -67,10 +67,10 @@ namespace bitmap_viewer{
 
 		if(!slider_) return;
 		slider_settings_changed(
-			slider_->colors.min(),
-			slider_->colors.max(),
-			slider_->colors.auto_range(),
-			slider_->colors.int_range()
+			slider_->min(),
+			slider_->max(),
+			slider_->auto_range(),
+			slider_->int_range()
 		);
 	}
 
@@ -100,15 +100,15 @@ namespace bitmap_viewer{
 	void viewer::auto_range_set(){
 		if(!slider_ || !item_) return;
 
-		if(slider_->colors.auto_range()){
+		if(slider_->auto_range()){
 			double min, max;
-			if(slider_->colors.int_range() && !item_->is_float()){
+			if(slider_->int_range() && !item_->is_float()){
 				std::tie(min, max) = item_->minmax_type_values();
 			}else{
 				std::tie(min, max) = item_->minmax_values();
 			}
-			slider_->colors.set_min(min);
-			slider_->colors.set_max(max);
+			slider_->set_min(min);
+			slider_->set_max(max);
 		}
 	}
 
@@ -120,12 +120,12 @@ namespace bitmap_viewer{
 	){
 		if(!slider_ || !item_) return;
 
-		slider_->colors.set_auto_range(auto_range);
-		slider_->colors.set_int_range(int_range);
+		slider_->set_auto_range(auto_range);
+		slider_->set_int_range(int_range);
 
 		if(!auto_range){
-			slider_->colors.set_min(min);
-			slider_->colors.set_max(max);
+			slider_->set_min(min);
+			slider_->set_max(max);
 		}else{
 			auto_range_set();
 		}
@@ -133,10 +133,10 @@ namespace bitmap_viewer{
 		repaint();
 
 		slider_settings_changed(
-			slider_->colors.min(),
-			slider_->colors.max(),
-			slider_->colors.auto_range(),
-			slider_->colors.int_range()
+			slider_->min(),
+			slider_->max(),
+			slider_->auto_range(),
+			slider_->int_range()
 		);
 	}
 
@@ -179,9 +179,10 @@ namespace bitmap_viewer{
 	)const{
 		painter.setRenderHint(QPainter::SmoothPixmapTransform, false);
 		painter.setPen(Qt::NoPen);
-		painter.setBrush(slider_->colors.background_brush());
+		painter.setBrush(slider_->colors().background_brush());
 		painter.drawRect(rect);
-		painter.drawImage(rect, item->image(slider_->colors, slider_->shift()));
+		painter.drawImage(rect, item->image(
+			slider_->colors(), slider_->shift()));
 	}
 
 

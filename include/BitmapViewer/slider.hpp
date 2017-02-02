@@ -23,9 +23,19 @@ namespace bitmap_viewer{
 	public:
 		slider(QWidget* parent);
 
-		bitmap_viewer::colors colors;
-
 		unsigned shift()const{return shift_;}
+
+		double min()const{ return colors_.min(); }
+		double max()const{ return colors_.max(); }
+		bool auto_range()const{ return colors_.auto_range(); }
+		bool int_range()const{ return colors_.int_range(); }
+
+		void set_min(double pos){ return colors_.set_min(pos); }
+		void set_max(double pos){ return colors_.set_max(pos); }
+		void set_auto_range(bool on){ return colors_.set_auto_range(on); }
+		void set_int_range(bool on){ return colors_.set_int_range(on); }
+
+		bitmap_viewer::colors const& colors()const{ return colors_; }
 
 	public slots:
 		void set_shift(unsigned pos);
@@ -56,6 +66,8 @@ namespace bitmap_viewer{
 
 	private:
 		unsigned inc_step(unsigned step, int inc)const;
+
+		bitmap_viewer::colors colors_;
 
 		bool active_;
 		unsigned shift_;

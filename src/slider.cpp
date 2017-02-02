@@ -31,66 +31,66 @@ namespace bitmap_viewer{
 		startshift_(0)
 	{
 		setCursor(Qt::OpenHandCursor);
-		colors.update.connect([this]{repaint();change();});
+		colors_.update.connect([this]{repaint();change();});
 	}
 
 	void slider::set_shift(unsigned s){
-		shift_ = colors.pass_pos(s);
+		shift_ = colors_.pass_pos(s);
 		repaint();
 		shift_changed(s);
 		change();
 	}
 
 	void slider::set_strips(unsigned count){
-		colors.set_strips(count);
+		colors_.set_strips(count);
 		set_shift(shift());
 	}
 
 	void slider::contrast_line(bool enable){
-		colors.contrast_line(enable);
+		colors_.contrast_line(enable);
 	}
 
 	void slider::next_palette(){
-		colors.next_palette();
+		colors_.next_palette();
 	}
 
 	unsigned slider::inc_step(unsigned step, int inc)const{
 		if(inc < 0){
-			inc = -inc % colors.strips();
-			step += colors.strips() - inc;
+			inc = -inc % colors_.strips();
+			step += colors_.strips() - inc;
 		}else{
 			step += inc;
-			step %= colors.strips();
+			step %= colors_.strips();
 		}
 		return step;
 	}
 
 	void slider::right_shift(){
-		auto step_pos = colors.step_pos(shift_);
+		auto step_pos = colors_.step_pos(shift_);
 		step_pos = inc_step(step_pos, -1);
-		set_shift(colors.pass_step_pos(step_pos));
+		set_shift(colors_.pass_step_pos(step_pos));
 	}
 
 	void slider::left_shift(){
-		auto step_pos = colors.step_pos(shift_);
+		auto step_pos = colors_.step_pos(shift_);
 		step_pos = inc_step(step_pos, 1);
-		set_shift(colors.pass_step_pos(step_pos));
+		set_shift(colors_.pass_step_pos(step_pos));
 	}
 
 	void slider::fold_linear(){
-		colors.set_fold(colors.fold() + 1);
+		colors_.set_fold(colors_.fold() + 1);
 	}
 
 	void slider::unfold_linear(){
-		colors.set_fold(colors.fold() - 1);
+		colors_.set_fold(colors_.fold() - 1);
 	}
 
 	void slider::fold_exponential(){
-		colors.set_fold(colors.fold() << 1);
+		colors_.set_fold(colors_.fold() << 1);
 	}
 
 	void slider::unfold_exponential(){
-		colors.set_fold(colors.fold() >> 1);
+		colors_.set_fold(colors_.fold() >> 1);
 	}
 
 	void slider::mouseMoveEvent(QMouseEvent* event){
@@ -122,11 +122,11 @@ namespace bitmap_viewer{
 		QPainter painter(this);
 		unsigned w = width();
 		for(unsigned i = 0; i < w; ++i){
-			painter.setPen(colors(shift_ + i * (shift_range / w)));
+			painter.setPen(colors_(shift_ + i * (shift_range / w)));
 			painter.drawLine(i, 0, i, height());
 		}
 
-		auto text = QString("Pos: %1").arg(colors.step_pos(shift_));
+		auto text = QString("Pos: %1").arg(colors_.step_pos(shift_));
 		auto flags = Qt::AlignLeft | Qt::AlignVCenter;
 		auto fontfactor = 0.7;
 		auto fontsize = height() * fontfactor;
@@ -153,16 +153,16 @@ namespace bitmap_viewer{
 	}
 
 	void slider::wheelEvent(QWheelEvent* event){
-		auto step_pos = colors.step_pos(shift_);
+		auto step_pos = colors_.step_pos(shift_);
 		double factor = 1;
 		if(event->buttons() & Qt::LeftButton) factor = 0.25;
 		if(event->buttons() & Qt::RightButton) factor = 4;
 		step_pos = inc_step(
 			step_pos,
-			std::max(factor * colors.strips() / 32, 1.) *
+			std::max(factor * colors_.strips() / 32, 1.) *
 			(event->angleDelta().y() > 0 ? 1 : -1)
 		);
-		set_shift(colors.pass_step_pos(step_pos));
+		set_shift(colors_.pass_step_pos(step_pos));
 	}
 
 
