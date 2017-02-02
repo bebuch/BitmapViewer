@@ -26,83 +26,17 @@ namespace bitmap_viewer{
 	using ::bitmap::size;
 
 
-	template < bool is_floating_point >
-	struct init{
-		template < typename T >
-		static std::size_t undefined_count(bitmap< T > const& bitmap);
-
-		template < typename T >
-		static std::tuple< T, T > minmax(bitmap< T > const& bitmap);
-	};
-
-	template <>
-	template < typename T >
-	std::size_t init< true >::undefined_count(bitmap< T > const& bitmap){
-		return std::count_if(bitmap.cbegin(), bitmap.cend(),
-			[](T v){return v != v;});
-	}
-
-	template <>
-	template < typename T >
-	std::size_t init< false >::undefined_count(bitmap< T > const&){
-		return 0;
-	}
-
-	template <>
-	template < typename T >
-	std::tuple< T, T > init< true >::minmax(bitmap< T > const& bitmap){
-		auto iter = bitmap.cbegin();
-		while(iter != bitmap.cend() && std::isnan(*iter)) ++iter;
-		if(iter == bitmap.cend()) return std::make_tuple(T(), T());
-
-		auto result = std::make_tuple(*iter, *iter);
-		std::for_each(++iter, bitmap.end(), [&result](T const& value){
-			if(value < std::get< 0 >(result)){
-				std::get< 0 >(result) = value;
-			}else if(value > std::get< 1 >(result)){
-				std::get< 1 >(result) = value;
-			}
-		});
-		return result;
-	}
-
-	template <>
-	template < typename T >
-	std::tuple< T, T > init< false >::minmax(bitmap< T > const& bitmap){
-		if(!bitmap.point_count()) return std::make_tuple(T(), T());
-
-		auto result = std::minmax_element(bitmap.cbegin(), bitmap.cend());
-		return std::make_tuple(*std::get< 0 >(result), *std::get< 1 >(result));
-	}
-
 	template < typename T >
 	class bitmap_info{
 	public:
 		using value_type = T;
 
 		bitmap_info(){}
-
-		bitmap_info(std::ifstream& is, big::header header):
-			bitmap(load(is, header)),
-			minmax(init< std::is_floating_point< T >::value >::minmax(bitmap)),
-			undefined_count(init< std::is_floating_point< T >::value >
-				::undefined_count(bitmap))
-			{}
+		bitmap_info(bitmap_viewer::bitmap< T >&& image);
 
 		bitmap_viewer::bitmap< T > bitmap;
 		std::tuple< T, T > minmax;
 		std::size_t undefined_count;
-
-	private:
-		static bitmap_viewer::bitmap< T > load(
-			std::ifstream& is, big::header header
-		){
-			bitmap_viewer::bitmap< T > bitmap(
-				size< std::size_t >(header.width, header.height)
-			);
-			big::read_data(bitmap, is);
-			return bitmap;
-		}
 	};
 
 
@@ -117,7 +51,7 @@ namespace bitmap_viewer{
 			bitmap_info< long double >
 		> bitmap_type;
 
-	bitmap_type load(std::string const& filename);
+	bitmap_type load_big(std::string const& filename);
 
 
 }

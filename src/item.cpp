@@ -257,8 +257,8 @@ namespace bitmap_viewer{
 
 	item::item(){}
 
-	item::item(QString const& filename):
-		bitmap_(load(filename.toStdString())),
+	item::item(bitmap_type&& image, QString const& filename):
+		bitmap_(std::move(image)),
 		filename_(filename),
 		icon_(boost::apply_visitor(generate_icon(), bitmap_))
 		{}

@@ -23,7 +23,7 @@ namespace bitmap_viewer{
 	class item{
 	public:
 		item();
-		item(QString const& filename);
+		item(bitmap_type&& bitmap, QString const& filename);
 
 		QString filename()const;
 		QString path()const;

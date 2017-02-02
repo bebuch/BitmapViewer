@@ -124,7 +124,11 @@ namespace bitmap_viewer{
 		dialog_.setAcceptMode(QFileDialog::AcceptOpen);
 		dialog_.setOption(QFileDialog::ShowDirsOnly, false);
 		dialog_.setFileMode(QFileDialog::ExistingFiles);
-		dialog_.setNameFilter(tr("Big Files (*.big);;All Files (*)"));
+		dialog_.setNameFilter(
+			tr("Portable Network Graphics (*.png)") + ";;" +
+			tr("Big Files (*.big)") + ";;" +
+			tr("All Files (*)")
+		);
 		if(!dialog_.exec()) return;
 
 		load_files(dialog_.selectedFiles());
@@ -234,7 +238,7 @@ namespace bitmap_viewer{
 		QStringList errors;
 		for(auto const& filename: filenames){
 			try{
-				item item(filename);
+				item item(load_big(filename.toStdString()), filename);
 				list.append(item);
 			}catch(std::exception const& error){
 				errors.push_back(error.what());
