@@ -41,7 +41,8 @@ namespace bitmap_viewer{
 			double min,
 			double max,
 			bool auto_range,
-			bool int_range
+			bool int_range,
+			colors::contrast_line_type c
 		);
 
 	signals:

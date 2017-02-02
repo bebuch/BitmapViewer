@@ -108,8 +108,8 @@ namespace bitmap_viewer{
 			struct palette{
 				static constexpr auto value =
 					std::is_floating_point< T >::value
-					? colors::type::rainbow
-					: colors::type::gray;
+					? colors::palette_type::rainbow
+					: colors::palette_type::gray;
 			};
 
 			template < typename T >

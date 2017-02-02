@@ -14,7 +14,6 @@
 #include <QPainter>
 
 #include <cmath>
-#include <iostream>
 
 
 namespace bitmap_viewer{

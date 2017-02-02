@@ -35,6 +35,12 @@ namespace bitmap_viewer{
 		void set_auto_range(bool on){ return colors_.set_auto_range(on); }
 		void set_int_range(bool on){ return colors_.set_int_range(on); }
 
+		void set_contrast_type(colors::contrast_line_type c){
+			colors_.set_contrast_type(c);
+			repaint();
+		}
+
+
 		bitmap_viewer::colors const& colors()const{ return colors_; }
 
 	public slots:

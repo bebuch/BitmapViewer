@@ -41,14 +41,25 @@ namespace bitmap_viewer{
 			ui.viewer, SLOT(next_mode())
 		);
 
+		auto const contrasts = colors::contrast_lines();
+		for(auto const& v: contrasts){
+			QVariant data;
+			data.setValue(std::get< 1 >(v));
+			ui.combo_strip->addItem(std::get< 0 >(v), data);
+		}
+
 		auto min_value = [this]{ return ui.spin_min->value(); };
 		auto max_value = [this]{ return ui.spin_max->value(); };
 		auto int_range = [this]{ return ui.check_int_range->isChecked(); };
 		auto auto_range = [this]{ return ui.check_auto_slider->isChecked(); };
+		auto combo_value = [this]{
+			return ui.combo_strip->currentData()
+				.value< colors::contrast_line_type >();
+		};
 
 		connect(
 			ui.check_auto_slider, &QCheckBox::stateChanged,
-			[this, min_value, max_value, int_range](int value){
+			[this, min_value, max_value, int_range, combo_value](int value){
 				bool state = !(value == Qt::Unchecked);
 				ui.spin_max->setReadOnly(state);
 				ui.spin_min->setReadOnly(state);
@@ -57,18 +68,18 @@ namespace bitmap_viewer{
 				ui.check_int_range->repaint();
 
 				ui.viewer->set_slider_settings(
-					min_value(), max_value(), state, int_range()
+					min_value(), max_value(), state, int_range(), combo_value()
 				);
 			}
 		);
 
 		connect(
 			ui.check_int_range, &QCheckBox::stateChanged,
-			[this, min_value, max_value, auto_range](int value){
+			[this, min_value, max_value, auto_range, combo_value](int value){
 				bool state = !(value == Qt::Unchecked);
 
 				ui.viewer->set_slider_settings(
-					min_value(), max_value(), auto_range(), state
+					min_value(), max_value(), auto_range(), state, combo_value()
 				);
 			}
 		);
@@ -85,10 +96,10 @@ namespace bitmap_viewer{
 			ui.spin_min,
 			static_cast< void(QDoubleSpinBox::*)(double) >
 				(&QDoubleSpinBox::valueChanged),
-			[this, max_value, auto_range, int_range](double value){
+			[this, max_value, auto_range, int_range, combo_value](double value){
 				ui.spin_max->setMinimum(value);
 				ui.viewer->set_slider_settings(
-					value, max_value(), auto_range(), int_range()
+					value, max_value(), auto_range(), int_range(), combo_value()
 				);
 			}
 		);
@@ -97,10 +108,22 @@ namespace bitmap_viewer{
 			ui.spin_max,
 			static_cast< void(QDoubleSpinBox::*)(double) >
 				(&QDoubleSpinBox::valueChanged),
-			[this, min_value, auto_range, int_range](double value){
+			[this, min_value, auto_range, int_range, combo_value](double value){
 				ui.spin_min->setMaximum(value);
 				ui.viewer->set_slider_settings(
-					min_value(), value, auto_range(), int_range()
+					min_value(), value, auto_range(), int_range(), combo_value()
+				);
+			}
+		);
+
+		connect(ui.combo_strip,
+			static_cast< void(QComboBox::*)(int) >
+				(&QComboBox::currentIndexChanged),
+			[this, min_value, max_value, auto_range, int_range](int i){
+				auto c = ui.combo_strip->itemData(i)
+					.value< colors::contrast_line_type >();
+				ui.viewer->set_slider_settings(
+					min_value(), max_value(), auto_range(), int_range(), c
 				);
 			}
 		);

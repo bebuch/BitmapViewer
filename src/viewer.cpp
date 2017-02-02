@@ -116,9 +116,14 @@ namespace bitmap_viewer{
 		double min,
 		double max,
 		bool auto_range,
-		bool int_range
+		bool int_range,
+		colors::contrast_line_type c
 	){
-		if(!slider_ || !item_) return;
+		if(!slider_) return;
+
+		slider_->set_contrast_type(c);
+
+		if(!item_) return;
 
 		slider_->set_auto_range(auto_range);
 		slider_->set_int_range(int_range);

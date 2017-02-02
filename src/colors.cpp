@@ -70,14 +70,15 @@ namespace bitmap_viewer{
 
 	}
 
-	colors::colors(type t, unsigned strips):
+	colors::colors(palette_type t, unsigned strips):
 		fold_(1),
 		strips_(strips),
 		min_(0),
 		max_(255),
 		auto_range_(true),
 		int_range_(false),
-		type_(t)
+		type_(t),
+		contrast_type_(contrast_line_type::auto_color)
 		{}
 
 
@@ -142,12 +143,12 @@ namespace bitmap_viewer{
 
 	void colors::next_palette(){
 		switch(type_){
-			case type::rainbow:{
-				type_ = type::gray;
+			case palette_type::rainbow:{
+				type_ = palette_type::gray;
 				break;
 			}
-			case type::gray:{
-				type_ = type::rainbow;
+			case palette_type::gray:{
+				type_ = palette_type::rainbow;
 				break;
 			}
 		}
@@ -170,27 +171,54 @@ namespace bitmap_viewer{
 		return pass_step_pos(step_pos(pos));
 	}
 
-	QColor colors::operator()(unsigned pos)const{
-		pos = pass_pos(pos);
+	void colors::set_contrast_type(contrast_line_type c){
+		contrast_type_ = c;
+	}
 
-		bool const contrast =
-			pos < static_cast< unsigned >(unsigned_value_count / strips_);
+
+	std::vector< std::tuple< QString, colors::contrast_line_type > >
+	colors::contrast_lines(){
+		return {
+			std::make_tuple(
+				QString(QObject::tr("Color")),
+				contrast_line_type::auto_color
+			),
+			std::make_tuple(
+				QString(QObject::tr("Palette")),
+				contrast_line_type::auto_palette
+			)
+		};
+	}
+
+	QColor colors::operator()(unsigned pos)const{
+		bool const contrast = pass_pos(pos) <
+			static_cast< unsigned >(unsigned_value_count / strips_);
 
 		switch(type_){
-			case type::rainbow:{
+			case palette_type::rainbow:{
 				if(contrast_line_ && contrast){
-					return calc_gray(pos * strips_);
+					switch (contrast_type_){
+					case contrast_line_type::auto_color:
+						return QColor(0, 0, 0);
+					case contrast_line_type::auto_palette:
+						return calc_gray(pass_pos(pos * strips_));
+					}
 				}
-				return calc_rainbow(pos * fold_);
+				return calc_rainbow(pass_pos(pos) * fold_);
 			}
-			case type::gray:{
+			case palette_type::gray:{
 				if(contrast_line_ && contrast){
-					return calc_rainbow(pos * strips_);
+					switch (contrast_type_){
+					case contrast_line_type::auto_color:
+						return QColor(255, 0, 0);
+					case contrast_line_type::auto_palette:
+						return calc_rainbow(pass_pos(pos * strips_));
+					}
 				}
-				return calc_gray(pos * fold_);
+				return calc_gray(pass_pos(pos) * fold_);
 			}
 		}
-		return QColor();
+		return QColor(0, 0, 0);
 	}
 
 	QBrush const& colors::background_brush()const{

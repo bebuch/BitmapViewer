@@ -20,9 +20,13 @@ namespace bitmap_viewer{
 
 	class colors{
 	public:
-		enum class type { rainbow, gray };
+		enum class palette_type { rainbow, gray };
+		enum class contrast_line_type: int{
+			auto_color,
+			auto_palette
+		};
 
-		colors(type t = type::rainbow, unsigned strips = 256);
+		colors(palette_type t = palette_type::rainbow, unsigned strips = 256);
 
 		boost::signals2::signal< void() > update;
 
@@ -50,6 +54,11 @@ namespace bitmap_viewer{
 		QBrush const& background_brush()const;
 		QColor operator()(unsigned pos)const;
 
+		void set_contrast_type(contrast_line_type c);
+
+		static std::vector< std::tuple< QString, contrast_line_type > >
+			contrast_lines();
+
 	private:
 		bool contrast_line_ = false;
 		std::uint16_t fold_;
@@ -58,11 +67,14 @@ namespace bitmap_viewer{
 		double max_;
 		bool auto_range_;
 		bool int_range_;
-		type type_;
+		palette_type type_;
+		contrast_line_type contrast_type_;
 	};
 
 
 }
+
+Q_DECLARE_METATYPE(bitmap_viewer::colors::contrast_line_type)
 
 
 #endif
