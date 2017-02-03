@@ -15,6 +15,8 @@
 
 #include <boost/variant.hpp>
 
+#include <QString>
+
 #include <algorithm>
 
 
@@ -52,6 +54,7 @@ namespace bitmap_viewer{
 		> bitmap_type;
 
 	bitmap_type load_big(std::string const& filename);
+	bitmap_type load_png(QString const& filename);
 
 
 }

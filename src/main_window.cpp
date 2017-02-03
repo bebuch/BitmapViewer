@@ -261,7 +261,11 @@ namespace bitmap_viewer{
 		QStringList errors;
 		for(auto const& filename: filenames){
 			try{
-				item item(load_big(filename.toStdString()), filename);
+				auto image =
+					filename.endsWith(".png", Qt::CaseInsensitive)
+					? load_png(filename)
+					: load_big(filename.toStdString());
+				item item(std::move(image), filename);
 				list.append(item);
 			}catch(std::exception const& error){
 				errors.push_back(error.what());

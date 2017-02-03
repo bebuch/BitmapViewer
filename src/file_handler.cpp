@@ -8,6 +8,8 @@
 //-----------------------------------------------------------------------------
 #include <BitmapViewer/file_handler.hpp>
 
+#include <QImage>
+
 
 namespace bitmap_viewer{
 
@@ -129,6 +131,28 @@ namespace bitmap_viewer{
 
 		throw std::runtime_error(filename + " has unknown file type: " +
 			std::to_string(header.type));
+	}
+
+	bitmap_type load_png(QString const& filename){
+		QImage image;
+		if(!image.load(filename, "PNG")){
+			throw std::runtime_error("Can not load '" +
+				filename.toStdString() + "' as PNG-File");
+		}
+		if(!image.isGrayscale()){
+			throw std::logic_error("'" + filename.toStdString() +
+				"' is not a grayscale image");
+		}
+		image = image.convertToFormat(QImage::Format_Grayscale8);
+		bitmap< std::uint8_t > result(
+			size< std::size_t >(image.width(), image.height())
+		);
+		for(int y = 0; y < image.height(); ++y){
+			auto ptr = image.constScanLine(y);
+			std::copy(ptr, ptr + image.width(),
+				result.data() + image.width() * y);
+		}
+		return bitmap_info< std::uint8_t >(std::move(result));
 	}
 
 
