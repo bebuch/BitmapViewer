@@ -417,7 +417,7 @@
   </widget>
   <action name="action_exit">
    <property name="icon">
-    <iconset resource="../qrc/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/images/exit.svg</normaloff>:/images/exit.svg</iconset>
    </property>
    <property name="text">
@@ -432,7 +432,7 @@
   </action>
   <action name="action_close">
    <property name="icon">
-    <iconset resource="../qrc/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/images/close.svg</normaloff>:/images/close.svg</iconset>
    </property>
    <property name="text">
@@ -447,7 +447,7 @@
   </action>
   <action name="action_open">
    <property name="icon">
-    <iconset resource="../qrc/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/images/open.svg</normaloff>:/images/open.svg</iconset>
    </property>
    <property name="text">
@@ -462,7 +462,7 @@
   </action>
   <action name="action_save">
    <property name="icon">
-    <iconset resource="../qrc/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/images/save.svg</normaloff>:/images/save.svg</iconset>
    </property>
    <property name="text">
@@ -477,7 +477,7 @@
   </action>
   <action name="action_left_shift">
    <property name="icon">
-    <iconset resource="../qrc/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/images/shift_left.svg</normaloff>:/images/shift_left.svg</iconset>
    </property>
    <property name="text">
@@ -489,7 +489,7 @@
   </action>
   <action name="action_right_shift">
    <property name="icon">
-    <iconset resource="../qrc/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/images/shift_right.svg</normaloff>:/images/shift_right.svg</iconset>
    </property>
    <property name="text">
@@ -501,7 +501,7 @@
   </action>
   <action name="action_fold_linear">
    <property name="icon">
-    <iconset resource="../qrc/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/images/fold_linear.svg</normaloff>:/images/fold_linear.svg</iconset>
    </property>
    <property name="text">
@@ -513,7 +513,7 @@
   </action>
   <action name="action_unfold_linear">
    <property name="icon">
-    <iconset resource="../qrc/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/images/unfold_linear.svg</normaloff>:/images/unfold_linear.svg</iconset>
    </property>
    <property name="text">
@@ -525,7 +525,7 @@
   </action>
   <action name="action_fold_exponential">
    <property name="icon">
-    <iconset resource="../qrc/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/images/fold_exponential.svg</normaloff>:/images/fold_exponential.svg</iconset>
    </property>
    <property name="text">
@@ -537,7 +537,7 @@
   </action>
   <action name="action_unfold_exponential">
    <property name="icon">
-    <iconset resource="../qrc/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/images/unfold_exponential.svg</normaloff>:/images/unfold_exponential.svg</iconset>
    </property>
    <property name="text">
@@ -549,7 +549,7 @@
   </action>
   <action name="action_change_palette">
    <property name="icon">
-    <iconset resource="../qrc/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/images/palette.svg</normaloff>:/images/palette.svg</iconset>
    </property>
    <property name="text">
@@ -561,7 +561,7 @@
   </action>
   <action name="action_next_show_mode">
    <property name="icon">
-    <iconset resource="../qrc/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/images/show_mode.svg</normaloff>:/images/show_mode.svg</iconset>
    </property>
    <property name="text">
@@ -576,7 +576,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../qrc/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/images/contrast_line.svg</normaloff>:/images/contrast_line.svg</iconset>
    </property>
    <property name="text">
@@ -588,7 +588,7 @@
   </action>
   <action name="action_info">
    <property name="icon">
-    <iconset resource="../qrc/icons.qrc">
+    <iconset resource="../icons.qrc">
      <normaloff>:/images/logo.svg</normaloff>:/images/logo.svg</iconset>
    </property>
    <property name="text">
@@ -631,7 +631,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../qrc/icons.qrc"/>
+  <include location="../icons.qrc"/>
  </resources>
  <connections>
   <connection>
