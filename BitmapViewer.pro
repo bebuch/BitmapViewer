@@ -46,4 +46,4 @@ FORMS    += \
     ui/info.ui
 
 RESOURCES += \
-    qrc/icons.qrc
+    icons.qrc
