@@ -229,10 +229,11 @@ namespace bitmap_viewer{
 	}
 
 	void main_window::show_bitmap(QModelIndex index){
-		auto model = dynamic_cast< list_model const* >(ui.list->model());
+		auto model = dynamic_cast< list_model* >(ui.list->model());
 		if(!model || !index.isValid()) return;
 
-		ui.viewer->set_bitmap(model->get(index.row()));
+		item* ptr = model->get(index.row());
+		ui.viewer->set_bitmap(ptr);
 	}
 
 	void main_window::dragEnterEvent(QDragEnterEvent* event){

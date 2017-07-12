@@ -320,5 +320,18 @@ namespace bitmap_viewer{
 		return icon_;
 	}
 
+	void item::add_point(point< std::size_t > const& p){
+		points_.push_back(p);
+	}
+
+	void item::remove_last_point(){
+		if(points_.empty()) return;
+		points_.erase(points_.end() - 1);
+	}
+
+	void item::remove_points(){
+		points_.clear();
+	}
+
 
 }

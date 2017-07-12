@@ -57,7 +57,7 @@ namespace bitmap_viewer{
 		setMouseTracking(true);
 	}
 
-	void viewer::set_bitmap(item const* i){
+	void viewer::set_bitmap(item* i){
 		item_ = i;
 		if(mode_ == mode::scroll && item_){
 			setMinimumSize(item_->width(), item_->height());
@@ -146,25 +146,33 @@ namespace bitmap_viewer{
 	}
 
 	void viewer::mouseMoveEvent(QMouseEvent* event){
-		if(!slider_ || !item_) return;
+		if(!event || !slider_ || !item_) return;
 
-		auto point = event->localPos();
-
-		double iw = item_->width();
-		double ih = item_->height();
-		double factor = std::max(iw / width(), ih / height());
-		if(mode_ != mode::scale && factor < 1) factor = 1;
-		point *= factor;
-
-		auto p = bitmap_viewer::point< std::size_t >(
-			static_cast< std::size_t >(point.x()),
-			static_cast< std::size_t >(point.y())
-		);
+		auto p = item_point(event->localPos());
 		info(boost::apply_visitor(print_value(p), item_->bitmap()));
 	}
 
+	void viewer::mouseReleaseEvent(QMouseEvent* event){
+		if(!event || !item_) return;
+
+		switch (event->button()){
+			case Qt::LeftButton: {
+				auto p = item_point(event->localPos());
+				if(p.x() >= item_->width() || p.y() >= item_->height()) return;
+				item_->add_point(p);
+			} break;
+			case Qt::RightButton: {
+				item_->remove_last_point();
+			} break;
+			case Qt::MidButton: {
+				item_->remove_points();
+			} break;
+			default: break;
+		}
+	}
+
 	void viewer::paintEvent(QPaintEvent*){
-		if(!slider_ || !item_) return;
+		if(!item_ || !slider_) return;
 
 		double iw = item_->width();
 		double ih = item_->height();
@@ -188,6 +196,19 @@ namespace bitmap_viewer{
 		painter.drawRect(rect);
 		painter.drawImage(rect, item->image(
 			slider_->colors(), slider_->shift()));
+	}
+
+	point< std::size_t > viewer::item_point(QPointF p)const{
+		double iw = item_->width();
+		double ih = item_->height();
+		double factor = std::max(iw / width(), ih / height());
+		if(mode_ != mode::scale && factor < 1) factor = 1;
+		p *= factor;
+
+		return point< std::size_t >(
+			static_cast< std::size_t >(p.x()),
+			static_cast< std::size_t >(p.y())
+		);
 	}
 
 

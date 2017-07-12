@@ -26,7 +26,7 @@ namespace bitmap_viewer{
 
 		viewer();
 
-		void set_bitmap(item const*);
+		void set_bitmap(item*);
 		void set_slider(slider*);
 
 		void draw_item(
@@ -56,12 +56,15 @@ namespace bitmap_viewer{
 
 	protected:
 		virtual void mouseMoveEvent(QMouseEvent* event);
+		virtual void mouseReleaseEvent(QMouseEvent* event);
 		virtual void paintEvent(QPaintEvent* event);
 
 	private:
 		void auto_range_set();
 
-		item const* item_;
+		point< std::size_t > item_point(QPointF p)const;
+
+		item* item_;
 		slider* slider_;
 		mode mode_;
 	};

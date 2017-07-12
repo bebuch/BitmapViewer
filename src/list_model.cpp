@@ -128,8 +128,8 @@ namespace bitmap_viewer{
 		}
 	}
 
-	item const* list_model::get(std::size_t index)const{
-		return &items_.at(index);
+	item* list_model::get(std::size_t index){
+		return &items_[index];
 	}
 
 

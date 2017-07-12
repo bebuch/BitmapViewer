@@ -15,6 +15,9 @@
 #include <QImage>
 #include <QPixmap>
 #include <QFileInfo>
+#include <QPoint>
+
+#include <vector>
 
 
 namespace bitmap_viewer{
@@ -50,12 +53,18 @@ namespace bitmap_viewer{
 
 		bitmap_type const& bitmap()const{return bitmap_;}
 
+		void add_point(point< std::size_t > const& p);
+		void remove_last_point();
+		void remove_points();
+
 	private:
 		bitmap_type bitmap_;
 
 		QFileInfo filename_;
 
 		QPixmap icon_;
+
+		std::vector< point< std::size_t > > points_;
 	};
 
 

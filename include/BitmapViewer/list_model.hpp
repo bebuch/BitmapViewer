@@ -58,7 +58,7 @@ namespace bitmap_viewer{
 
 		void close_selected(QModelIndexList const& index_list);
 
-		item const* get(std::size_t index)const;
+		item* get(std::size_t index);
 
 	private:
 		QList< item > items_;
