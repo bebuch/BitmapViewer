@@ -178,6 +178,23 @@ namespace bitmap_viewer{
 		contrast_type_ = c;
 	}
 
+	colors::palette_type colors::palette()const{
+		return type_;
+	}
+
+	QColor colors::contrast_color()const{
+		return contrast_color(palette());
+	}
+
+	QColor colors::contrast_color(colors::palette_type type){
+		switch(type){
+			case palette_type::rainbow:
+				return QColor(0, 0, 0);
+			case palette_type::gray:
+				return QColor(255, 0, 0);
+		}
+		return QColor(0, 0, 0);
+	}
 
 	std::vector< std::tuple< QString, colors::contrast_line_type > >
 	colors::contrast_lines(){
@@ -202,7 +219,7 @@ namespace bitmap_viewer{
 				if(contrast_line_ && contrast){
 					switch (contrast_type_){
 					case contrast_line_type::auto_color:
-						return QColor(0, 0, 0);
+						return contrast_color();
 					case contrast_line_type::auto_palette:
 						return calc_gray(pass_pos(pos * strips_));
 					}
@@ -213,7 +230,7 @@ namespace bitmap_viewer{
 				if(contrast_line_ && contrast){
 					switch (contrast_type_){
 					case contrast_line_type::auto_color:
-						return QColor(255, 0, 0);
+						return contrast_color();
 					case contrast_line_type::auto_palette:
 						return calc_rainbow(pass_pos(pos * strips_));
 					}

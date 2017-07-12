@@ -64,7 +64,9 @@ namespace bitmap_viewer{
 		void auto_range_set();
 		void update_point_list();
 
-		point< std::size_t > item_point(QPointF p)const;
+		double local_item_factor()const;
+		point< std::size_t > to_item_point(QPointF p)const;
+		QPointF to_local_point(point< std::size_t > p)const;
 
 		item* item_;
 		slider* slider_;

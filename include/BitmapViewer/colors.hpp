@@ -51,6 +51,11 @@ namespace bitmap_viewer{
 		void contrast_line(bool enable);
 		void next_palette();
 
+		palette_type palette()const;
+
+		QColor contrast_color()const;
+		static QColor contrast_color(palette_type type);
+
 		QBrush const& background_brush()const;
 		QColor operator()(unsigned pos)const;
 
