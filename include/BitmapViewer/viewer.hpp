@@ -53,6 +53,7 @@ namespace bitmap_viewer{
 			bool auto_range,
 			bool int_range
 		);
+		void point_list_changed(QStringList);
 
 	protected:
 		virtual void mouseMoveEvent(QMouseEvent* event);
@@ -61,6 +62,7 @@ namespace bitmap_viewer{
 
 	private:
 		void auto_range_set();
+		void update_point_list();
 
 		point< std::size_t > item_point(QPointF p)const;
 

@@ -72,6 +72,8 @@ namespace bitmap_viewer{
 			slider_->auto_range(),
 			slider_->int_range()
 		);
+
+		update_point_list();
 	}
 
 	void viewer::set_slider(slider* s){
@@ -167,8 +169,10 @@ namespace bitmap_viewer{
 			case Qt::MidButton: {
 				item_->remove_points();
 			} break;
-			default: break;
+			default: return;
 		}
+
+		update_point_list();
 	}
 
 	void viewer::paintEvent(QPaintEvent*){
@@ -209,6 +213,16 @@ namespace bitmap_viewer{
 			static_cast< std::size_t >(p.x()),
 			static_cast< std::size_t >(p.y())
 		);
+	}
+
+	void viewer::update_point_list(){
+		if(!item_) return;
+		auto points = item_->points();
+		QStringList list;
+		for(auto p: points){
+			list.append(QString("%1×%2").arg(p.x()).arg(p.y()));
+		}
+		point_list_changed(list);
 	}
 
 

@@ -57,6 +57,8 @@ namespace bitmap_viewer{
 		void remove_last_point();
 		void remove_points();
 
+		std::vector< point< std::size_t > > points()const;
+
 	private:
 		bitmap_type bitmap_;
 

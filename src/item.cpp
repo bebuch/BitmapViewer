@@ -333,5 +333,9 @@ namespace bitmap_viewer{
 		points_.clear();
 	}
 
+	std::vector< point< std::size_t > > item::points()const{
+		return points_;
+	}
+
 
 }

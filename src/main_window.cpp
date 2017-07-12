@@ -15,6 +15,7 @@
 #include <QPainter>
 #include <QUrl>
 #include <QSpinBox>
+#include <QClipboard>
 
 
 namespace bitmap_viewer{
@@ -139,6 +140,28 @@ namespace bitmap_viewer{
 			}
 		);
 
+		connect(
+			ui.viewer, &viewer::point_list_changed,
+			[this](QStringList list){
+				ui.points->clear();
+				ui.points->addItems(list);
+			}
+		);
+
+		connect(ui.points_copy_button,
+			static_cast< void(QAbstractButton::*)(bool) >
+				(&QPushButton::clicked),
+			[this]{
+				QStringList list;
+				for(int i = 0; i < ui.points->count(); ++i){
+					QListWidgetItem* item = ui.points->item(i);
+					auto variant = item->data(Qt::DisplayRole);
+					if(variant.type() != QVariant::String) continue;
+					list.append(variant.toString());
+				}
+				QApplication::clipboard()->setText(list.join('\n'));
+			}
+		);
 
 		setAcceptDrops(true);
 	}
