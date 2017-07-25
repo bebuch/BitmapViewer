@@ -23,9 +23,9 @@
 namespace bitmap_viewer{
 
 
-	using ::bitmap::bitmap;
-	using ::bitmap::point;
-	using ::bitmap::size;
+	using ::bmp::bitmap;
+	using ::bmp::point;
+	using ::bmp::size;
 
 
 	template < typename T >
