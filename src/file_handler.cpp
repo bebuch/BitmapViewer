@@ -8,6 +8,10 @@
 //-----------------------------------------------------------------------------
 #include <BitmapViewer/file_handler.hpp>
 
+#include <bitmap/binary_read.hpp>
+
+#include <big.hpp>
+
 #include <QImage>
 
 
@@ -103,9 +107,6 @@ namespace bitmap_viewer{
 		big::header header = big::read_header(is);
 
 		switch(header.type){
-//			case big::type< bool >::value:
-//				return bitmap_info< bool >(
-//					load_big< bool >(is, header));
 			case big::type< std::uint8_t >::value:
 				return bitmap_info< std::uint8_t >(
 					load_big< std::uint8_t >(is, header));
@@ -131,6 +132,69 @@ namespace bitmap_viewer{
 
 		throw std::runtime_error(filename + " has unknown file type: " +
 			std::to_string(header.type));
+	}
+
+	bitmap_type load_bbf(std::string const& filename){
+		std::ifstream is(
+			filename.c_str(),
+			std::ios_base::in | std::ios_base::binary
+		);
+
+		if(!is.is_open()){
+			throw std::runtime_error("Can not open file: " + filename);
+		}
+
+		auto header = bmp::binary_read_header(is);
+
+		if(header.channel_count != 1){
+			std::ostringstream os;
+			os << filename << " has " << header.channel_count
+				<< " channels, but images with more than one channels are "
+					"not supported";
+			throw std::runtime_error(os.str());
+		}
+
+		using bmp::detail::binary_type_flags;
+		auto const type_flag = binary_type_flags(header.flags & 0x0F);
+		switch(type_flag){
+		case binary_type_flags::is_unsigned:
+			switch(header.channel_size){
+			case 1: return bitmap_info(bmp::binary_read_data< std::uint8_t >(
+					is, header, false));
+			case 2: return bitmap_info(bmp::binary_read_data< std::uint16_t >(
+					is, header, false));
+			case 4: return bitmap_info(bmp::binary_read_data< std::uint32_t >(
+					is, header, false));
+			case 8: return bitmap_info(bmp::binary_read_data< std::uint64_t >(
+					is, header, false));
+			}
+		break;
+		case binary_type_flags::is_signed:
+			switch(header.channel_size){
+			case 1: return bitmap_info(bmp::binary_read_data< std::int8_t >(
+					is, header, false));
+			case 2: return bitmap_info(bmp::binary_read_data< std::int16_t >(
+					is, header, false));
+			case 4: return bitmap_info(bmp::binary_read_data< std::int32_t >(
+					is, header, false));
+			case 8: return bitmap_info(bmp::binary_read_data< std::int64_t >(
+					is, header, false));
+			}
+		break;
+		case binary_type_flags::is_floating_point:
+			switch(header.channel_size){
+			case 4: return bitmap_info(bmp::binary_read_data< float >(
+					is, header, false));
+			case 8: return bitmap_info(bmp::binary_read_data< double >(
+					is, header, false));
+			}
+		break;
+		case binary_type_flags::is_bool:
+			return bmp::binary_read_data< bool >(is, header, false);
+		break;
+		}
+
+		throw std::runtime_error(filename + ": unsupported value size");
 	}
 
 	bitmap_type load_png(QString const& filename){

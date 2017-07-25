@@ -11,8 +11,6 @@
 
 #include <bitmap/bitmap.hpp>
 
-#include <big.hpp>
-
 #include <boost/variant.hpp>
 
 #include <QString>
@@ -43,7 +41,11 @@ namespace bitmap_viewer{
 
 
 	typedef boost::variant<
-//			bitmap_info< bool >,
+			bitmap_info< bool >,
+			bitmap_info< std::int8_t >,
+			bitmap_info< std::int16_t >,
+			bitmap_info< std::int32_t >,
+			bitmap_info< std::int64_t >,
 			bitmap_info< std::uint8_t >,
 			bitmap_info< std::uint16_t >,
 			bitmap_info< std::uint32_t >,
@@ -54,6 +56,7 @@ namespace bitmap_viewer{
 		> bitmap_type;
 
 	bitmap_type load_big(std::string const& filename);
+	bitmap_type load_bbf(std::string const& filename);
 	bitmap_type load_png(QString const& filename);
 
 

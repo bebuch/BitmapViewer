@@ -12,6 +12,7 @@
 
 #include <type_traits>
 #include <sstream>
+#include <cmath>
 
 
 namespace bitmap_viewer{
@@ -83,24 +84,24 @@ namespace bitmap_viewer{
 		};
 
 
-	//	template <>
-	//	QImage generate_image::operator()(
-	//		bitmap_info< bool > const& info
-	//	)const{
-	//		auto const& bitmap = info.bitmap;
-	//		QImage image(bitmap.width(), bitmap.height(),
-	//			QImage::Format_ARGB32);
+		template <>
+		QImage generate_image::operator()(
+			bitmap_info< bool > const& info
+		)const{
+			auto const& bitmap = info.bitmap;
+			QImage image(bitmap.width(), bitmap.height(),
+				QImage::Format_ARGB32);
 
-	//		std::transform(bitmap.begin(), bitmap.end(),
-	//			reinterpret_cast< unsigned* >(image.bits()),
-	//			[this](bool value)->unsigned{
-	//				return color_((value ? (unsigned() - 1) / 2 : 0) + shift_)
-	//					.rgba();
-	//			}
-	//		);
+			std::transform(bitmap.begin(), bitmap.end(),
+				reinterpret_cast< unsigned* >(image.bits()),
+				[this](bool value)->unsigned{
+					return color_((value ? (unsigned() - 1) / 2 : 0) + shift_)
+						.rgba();
+				}
+			);
 
-	//		return image;
-	//	}
+			return image;
+		}
 
 		class generate_icon: public boost::static_visitor< QPixmap >{
 		private:

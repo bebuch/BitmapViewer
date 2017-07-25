@@ -171,6 +171,7 @@ namespace bitmap_viewer{
 		dialog_.setOption(QFileDialog::ShowDirsOnly, false);
 		dialog_.setFileMode(QFileDialog::ExistingFiles);
 		dialog_.setNameFilter(
+			tr("Binary Bitmap Format (*.bbf)") + ";;" +
 			tr("Portable Network Graphics (*.png)") + ";;" +
 			tr("Big Files (*.big)") + ";;" +
 			tr("All Files (*)")
@@ -288,7 +289,9 @@ namespace bitmap_viewer{
 				auto image =
 					filename.endsWith(".png", Qt::CaseInsensitive)
 					? load_png(filename)
-					: load_big(filename.toStdString());
+					: filename.endsWith(".big", Qt::CaseInsensitive)
+					? load_big(filename.toStdString())
+					: load_bbf(filename.toStdString());
 				item item(std::move(image), filename);
 				list.append(item);
 			}catch(std::exception const& error){

@@ -6,7 +6,7 @@
 
 QT += core gui svg widgets
 
-CONFIG += c++14
+CONFIG += c++1z
 
 INCLUDEPATH += $$(BOOST)
 INCLUDEPATH += $$(BIG)/cpp/include
