@@ -29,16 +29,16 @@ namespace bitmap_viewer{
 			if(pos < 1. / 6){
 				pos *= 3 * M_PI;
 				return QColor(255, 0, std::sin(M_PI / 2 - pos) * 255);
-			}else if(pos >= 1. / 6 && pos < 2. / 6){
+			}else if(pos < 2. / 6){
 				pos = (pos - 1. / 6) * 3 * M_PI;
 				return QColor(255, std::sin(pos) * 255, 0);
-			}else if(pos >= 2. / 6 && pos < 3. / 6){
+			}else if(pos < 3. / 6){
 				pos = (pos - 2. / 6) * 3 * M_PI;
 				return QColor(std::sin(M_PI / 2 - pos) * 255, 255, 0);
-			}else if(pos >= 3. / 6 && pos < 4. / 6){
+			}else if(pos < 4. / 6){
 				pos = (pos - 3. / 6) * 3 * M_PI;
 				return QColor(0, 255, std::sin(pos) * 255);
-			}else if(pos >= 4. / 6 && pos < 5. / 6){
+			}else if(pos < 5. / 6){
 				pos = (pos - 4. / 6) * 3 * M_PI;
 				return QColor(0, std::sin(M_PI / 2 - pos) * 255, 255);
 			}else{
