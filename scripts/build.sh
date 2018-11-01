@@ -38,13 +38,13 @@ make
 # == prepare AppImage ==
 
 # add main executable
+MAIN_EXE=$BUILD_DIR/BitmapViewer
 cp $MAIN_EXE $EXE_DIR/
 
 # add secondary executable
 cp /bin/grep $USR_BIN_DIR
 
 # add dependencies
-MAIN_EXE=$BUILD_DIR/BitmapViewer
 ldd $MAIN_EXE
 ldd $MAIN_EXE | grep -e "\.so" | grep -o '=> [^ ]*' | grep -o '[^=> ]*' | sort | sed -e 's/^/cp /' -e 's@$@ '"$USR_LIB_DIR/"'@' | bash
 
