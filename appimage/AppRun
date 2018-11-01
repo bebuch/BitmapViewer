@@ -2,5 +2,6 @@
 HERE="$(dirname "$(readlink -f "${0}")")"
 export PATH="${HERE}"/bin:"${HERE}"/usr/bin:"${PATH}"
 export LD_LIBRARY_PATH="${HERE}"/usr/lib:"${LD_LIBRARY_PATH}"
+export QT_PLUGIN_PATH="${HERE}"/usr/qt/plugins
 EXEC=$(grep -e '^Exec=.*' "${HERE}"/*.desktop | head -n 1 | cut -d "=" -f 2 | cut -d " " -f 1)
 exec "${EXEC}" "$@"
