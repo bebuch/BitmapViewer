@@ -46,6 +46,11 @@ cp /bin/grep $USR_BIN_DIR
 ldd $MAIN_EXE
 ldd $MAIN_EXE | grep -e "\.so" | grep -o '=> [^ ]*' | grep -o '[^=> ]*' | sort | sed -e 's/^/cp /' -e 's@$@ '"$USR_LIB_DIR/"'@' | bash
 
+# remove dependencies that must not be included
+rm $USR_LIB_DIR/libc.so.6
+rm $USR_LIB_DIR/libm.so.6
+rm $USR_LIB_DIR/libdl.so.2
+rm $USR_LIB_DIR/libpthread.so.0
 
 # create AppImage
 cp -r $PROJECT_DIR/appimage/* $BIN_DIR/AppDir/
