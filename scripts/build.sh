@@ -48,7 +48,7 @@ ldd $MAIN_EXE | grep -e "\.so" | grep -o '=> [^ ]*' | grep -o '[^=> ]*' | sort |
 
 
 # create AppImage
-cp -r appimage/* $BIN_DIR/AppDir/
+cp -r $PROJECT_DIR/appimage/* $BIN_DIR/AppDir/
 appimagetool $BIN_DIR/AppDir
 mv BitmapViewer-x86_64.AppImage BitmapViewer-$COMPILER_DIR-$MODE-x86_64.AppImage
 
