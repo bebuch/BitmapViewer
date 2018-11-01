@@ -21,6 +21,14 @@ USR_LIB_DIR=$BIN_DIR/AppDir/usr/lib
 QT_PLUGINS_DIR=$BIN_DIR/AppDir/usr/qt/plugins
 
 
+# make build and deploy dirs
+mkdir -p $BUILD_DIR
+mkdir -p $EXE_DIR
+mkdir -p $USR_BIN_DIR
+mkdir -p $USR_LIB_DIR
+mkdir -p $QT_PLUGINS_DIR
+
+
 ## == build ==
 cd $BUILD_DIR
 qmake "CONFIG+=$MODE" ../../..
@@ -28,13 +36,6 @@ make
 
 
 # == prepare AppImage ==
-
-# make build dirs if they don't exist already
-mkdir -p $BUILD_DIR
-mkdir -p $EXE_DIR
-mkdir -p $USR_BIN_DIR
-mkdir -p $USR_LIB_DIR
-mkdir -p $QT_PLUGINS_DIR
 
 # add main executable
 cp $MAIN_EXE $EXE_DIR/
