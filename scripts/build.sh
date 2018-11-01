@@ -31,7 +31,7 @@ mkdir -p $QT_PLUGINS_DIR
 
 ## == build ==
 cd $BUILD_DIR
-qmake "CONFIG+=$MODE" ../../../../
+qmake "CONFIG+=$MODE" $PROJECT_DIR
 make
 
 
