@@ -14,20 +14,20 @@ CLANG_VERSION=$(ls | grep -Po 'clang-\d.\d.\d' | grep -Po '\d.\d.\d')
 # create AppImages
 cd $PROJECT_DIR
 
-cp -r appimage/* bin/gcc-$GCC_VERSION/debug/AppDir/
-AppRun bin/gcc-$GCC_VERSION/debug/AppDir
+cp -r appimage/* bin/gcc-$GCC_VERSION/debug/AppDir
+appimagetool bin/gcc-$GCC_VERSION/debug/AppDir
 mv BitmapViewer-x86_64.AppImage BitmapViewer-gcc-$GCC_VERSION-debug-x86_64.AppImage
 
 cp -r appimage/* bin/gcc-$GCC_VERSION/release/AppDir
-AppRun bin/gcc-$GCC_VERSION/release/AppDir
+appimagetool bin/gcc-$GCC_VERSION/release/AppDir
 mv BitmapViewer-x86_64.AppImage BitmapViewer-gcc-$GCC_VERSION-release-x86_64.AppImage
 
 cp -r appimage/* bin/clang-$CLANG_VERSION/debug/AppDir
-AppRun bin/clang-$CLANG_VERSION/debug/AppDir
+appimagetool bin/clang-$CLANG_VERSION/debug/AppDir
 mv BitmapViewer-x86_64.AppImage BitmapViewer-clang-$CLANG_VERSION-debug-x86_64.AppImage
 
 cp -r appimage/* bin/clang-$CLANG_VERSION/release/AppDir
-AppRun bin/clang-$CLANG_VERSION/release/AppDir
+appimagetool bin/clang-$CLANG_VERSION/release/AppDir
 mv BitmapViewer-x86_64.AppImage BitmapViewer-clang-$CLANG_VERSION-release-x86_64.AppImage
 
 
