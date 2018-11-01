@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   height="400"
+   width="400"
+   id="svg2"
+   inkscape:version="0.92.3 (unknown)"
+   sodipodi:docname="logo.svg">
+  <metadata
+     id="metadata38">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1854"
+     inkscape:window-height="1020"
+     id="namedview36"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="2.0576807"
+     inkscape:cx="207.18962"
+     inkscape:cy="217.64922"
+     inkscape:window-x="66"
+     inkscape:window-y="36"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <defs
+     id="defs4">
+    <linearGradient
+       id="rainbow"
+       x1="0"
+       y1="0"
+       x2="141.42136"
+       y2="0"
+       gradientTransform="matrix(2.8284272,0,0,1.4142136,0,200)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         stop-color="#8000ff"
+         id="stop7" />
+      <stop
+         offset="8.33333%"
+         stop-color="#ff00ff"
+         id="stop9" />
+      <stop
+         offset="25%"
+         stop-color="#ff0000"
+         id="stop11" />
+      <stop
+         offset="41.66667%"
+         stop-color="#ffff00"
+         id="stop13" />
+      <stop
+         offset="58.33333%"
+         stop-color="#00ff00"
+         id="stop15" />
+      <stop
+         offset="75%"
+         stop-color="#00ffff"
+         id="stop17" />
+      <stop
+         offset="91.66667%"
+         stop-color="#0000ff"
+         id="stop19" />
+      <stop
+         offset="100%"
+         stop-color="#8000ff"
+         id="stop21" />
+    </linearGradient>
+    <linearGradient
+       id="gray"
+       x1="0"
+       y1="0"
+       x2="1"
+       y2="0">
+      <stop
+         offset="0%"
+         stop-color="#000"
+         id="stop24" />
+      <stop
+         offset="100%"
+         stop-color="#fff"
+         id="stop26" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#gray"
+       id="linearGradient3366"
+       x1="22.795172"
+       y1="120.92976"
+       x2="88.084496"
+       y2="120.92976"
+       gradientTransform="matrix(4.3526215,0,0,0.91898646,0,200)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#gray"
+       id="linearGradient3368"
+       x1="16.638241"
+       y1="30.132257"
+       x2="89.71936"
+       y2="30.132257"
+       gradientTransform="matrix(3.871447,0,0,1.0332054,0,200)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#gray"
+       id="linearGradient3370"
+       x1="68.041359"
+       y1="0"
+       x2="92.536255"
+       y2="0"
+       gradientTransform="matrix(0.48989792,0,0,8.1649656,0,200)"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <g
+     id="g834"
+     transform="translate(0,-100)">
+    <rect
+       style="fill:url(#rainbow)"
+       id="rect28"
+       height="200"
+       width="400"
+       y="200"
+       x="0" />
+    <rect
+       style="fill:url(#linearGradient3370)"
+       id="rect30"
+       height="200"
+       width="12"
+       y="200"
+       x="33.333321" />
+    <text
+       id="text32"
+       style="font-size:80px;line-height:0%;font-family:serif;fill:url(#linearGradient3368)"
+       y="290"
+       x="60">Bitmap</text>
+    <text
+       id="text34"
+       style="font-size:80px;line-height:0%;font-family:serif;fill:url(#linearGradient3366)"
+       y="370"
+       x="99.999992">Viewer</text>
+  </g>
+</svg>

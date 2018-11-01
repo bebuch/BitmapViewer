@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=BitmapViewer
+Exec=BitmapViewer
+Terminal=true
+Icon=BitmapViewer
+Type=Application
+Categories=Graphics;
