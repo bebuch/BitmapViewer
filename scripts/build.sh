@@ -29,13 +29,13 @@ mkdir -p $USR_LIB_DIR
 mkdir -p $QT_PLUGINS_DIR
 
 
-## == build ==
+# build
 cd $BUILD_DIR
 qmake "CONFIG+=$MODE" $PROJECT_DIR
 make
 
 
-# == prepare AppImage ==
+# prepare AppImage
 
 # add main executable
 MAIN_EXE=$BUILD_DIR/BitmapViewer
@@ -53,3 +53,18 @@ cp -r $Qt5_DIR/plugins/* $QT_PLUGINS_DIR/
 
 # add QT plugins dependencies
 find $Qt5_DIR/plugins/ | grep -e "\.so" | sed -e 's/\(.*\)/ldd \1/' | bash | grep -o '=> [^ ]*' | grep -o '[^=> ]*' | sed -e 's/^/cp /' -e 's@$@ '"$USR_LIB_DIR/"'@' | sort | uniq | bash -o xtrace
+
+
+# create AppImage
+appimagetool $BIN_DIR/AppDir
+mv BitmapViewer-x86_64.AppImage BitmapViewer-$COMPILER_DIR-$MODE-x86_64.AppImage
+
+
+# upload created files to Platin server
+smbclient //$PLATIN_ADDRESS/Austausch -U "$PLATIN_USER%$PLATIN_PASS" -D //GitLab-Bot -c "mkdir BitmapViewer"
+smbclient //$PLATIN_ADDRESS/Austausch -U "$PLATIN_USER%$PLATIN_PASS" -D //GitLab-Bot/BitmapViewer -c "put BitmapViewer-$COMPILER_DIR-$MODE-x86_64.AppImage"
+
+
+# remove created files
+rm BitmapViewer-$COMPILER_DIR-$MODE-x86_64.AppImage
+rm -r $BIN_DIR/AppDir
