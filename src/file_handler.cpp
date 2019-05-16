@@ -148,7 +148,8 @@ namespace bitmap_viewer{
 
 		if(header.channel_count != 1){
 			std::ostringstream os;
-			os << filename << " has " << header.channel_count
+			os << filename << " has "
+				<< static_cast< int >(header.channel_count)
 				<< " channels, but images with more than one channels are "
 					"not supported";
 			throw std::runtime_error(os.str());
