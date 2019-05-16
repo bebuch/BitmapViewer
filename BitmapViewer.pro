@@ -9,8 +9,8 @@ QT += core gui svg widgets
 CONFIG += c++1z static
 
 INCLUDEPATH += $$(BOOST_ROOT)
-INCLUDEPATH += ../big/cpp/include
-INCLUDEPATH += ../bitmap/include
+INCLUDEPATH += 3rdparty/big/cpp/include
+INCLUDEPATH += 3rdparty/bitmap/include
 INCLUDEPATH += ./include
 
 

@@ -1,0 +1,6 @@
+[submodule "3rdparty/big"]
+	path = 3rdparty/big
+	url = https://github.com/bebuch/big
+[submodule "3rdparty/bitmap"]
+	path = 3rdparty/bitmap
+	url = https://github.com/bebuch/bitmap
